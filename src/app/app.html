@@ -1,1 +1,62 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-split-pane when="lg">
+
+  <ion-menu side="left" id="authenticated" [content]="content">
+    <ion-header>
+      <ion-toolbar class="user-profile nav-transparent">
+
+        <ion-grid>
+          <ion-row>
+            <ion-col col-4>
+              <ion-avatar item-start>
+                <img class="user-avatar" src="assets/img/avatar.jpeg">
+              </ion-avatar>
+            </ion-col>
+            <ion-col col-8 *ngIf="user">
+              <h4 ion-text class="text-white bold" no-margin>{{ user.surname }}</h4>
+              <p ion-text color="light" no-margin>{{ user.email || user.phone }}</p>
+              <div padding-top>
+                <button ion-button icon-left small block color="dark" menuClose (click)="editProfile()">
+                  <ion-icon name="contact"></ion-icon>
+                  Edit Profile
+                </button>
+                <p></p>
+                <button ion-button icon-left small block color="energy" menuClose (click)="logout()">
+                    <ion-icon name="log-out" color="warning"></ion-icon>
+                    <span ion-text color="warning">Logout</span>
+                  </button>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <ion-grid no-padding>
+          <ion-row class="other-data">
+            <ion-col text-center class="column">
+              <span ion-text color="light" class="bold">Points</span>
+              <h5 ion-text no-margin class="text-1x text-white">2.0</h5>
+            </ion-col>
+            <ion-col text-center class="column">
+              <span ion-text color="light" class="bold">Location</span>
+              <h5 ion-text no-margin class="text-1x text-white">Nigeria</h5>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content color="primary">
+
+      <ion-list class="user-list">
+        <button ion-item menuClose class="text-1x" *ngFor="let menuItem of appMenuItems" (click)="openPage(menuItem)">
+          <ion-icon item-left [name]="menuItem.icon" color="primary"></ion-icon>
+          <span ion-text color="primary">{{menuItem.title}}</span>
+        </button>
+      </ion-list>
+    </ion-content>
+
+  </ion-menu>
+
+  <ion-nav [root]="rootPage" main #content swipeBackEnabled="false"></ion-nav>
+
+</ion-split-pane>

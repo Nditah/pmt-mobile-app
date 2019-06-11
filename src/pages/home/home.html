@@ -1,14 +1,64 @@
-<ion-header>
-  <ion-navbar>
+<!-- -->
+<ion-header class="no-shadow">
+
+  <ion-navbar class="no-border" color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>
-      Ionic Blank
+      <div ion-text class="icon-title text-white"></div>
+      <span class="text-light">PMT</span><strong>Online</strong>
     </ion-title>
+    <ion-buttons end>
+      <button ion-button tappable (click)="presentNotifications($event)">
+        <ion-icon name="notifications"></ion-icon>
+      </button>
+      <button ion-button tappable (click)="goToAccount()">
+        <ion-icon name="cog"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+
+<ion-content class="common-bg">
+  <!--list menu on the top-->
+  <div class="trip-card-wrapper" no-margin>
+    <ion-card class="opt-card">
+      <ion-card-header>
+        <ion-card no-margin class="w100">
+          <ion-card-content class="secondary-bg">
+            <h2 ion-text class="bold text-white" text-center>Choose your way</h2>
+          </ion-card-content>
+        </ion-card>
+      </ion-card-header>
+      <ion-card-content class="card-background-page">
+
+        <ion-card no-margin margin-bottom tapplable (click)="searchSchedules()">
+          <img src="assets/img/background-1.jpg" />
+          <div class="card-title">Book a bus</div>
+          <div class="card-subtitle">
+            <span ion-text color="secondary" class="bold">18</span> bookings today!
+          </div>
+          <span ion-text class="card-img-status promo fw300 text-white">
+            discounts
+          </span>
+        </ion-card>
+
+        <ion-card no-margin margin-bottom>
+          <img src="assets/img/background-2.jpg" />
+          <div class="card-title">Hire a taxi</div>
+          <div class="card-subtitle">
+            <span ion-text color="secondary" class="bold">9</span> bookings today!
+          </div>
+          <span ion-text class="card-img-status promo fw300 text-white">
+            coming soon!
+          </span>
+        </ion-card>
+
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+
 </ion-content>
