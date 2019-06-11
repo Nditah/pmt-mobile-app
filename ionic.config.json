@@ -1,0 +1,8 @@
+{
+  "name": "pmtOnline",
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
+  "type": "ionic-angular"
+}
