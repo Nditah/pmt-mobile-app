@@ -1,0 +1,95 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>
+            <span ion-text>Booking List</span>
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="common-bg">
+  <ion-grid no-padding fixed>
+    <ion-row>
+      <ion-col col-12 margin-bottom>
+
+        <ion-card *ngIf="reservations.length==0 && bookings.length==0" class="primary-bg" margin-top>
+          <ion-card-content>
+          	<p text-center class="text-white">You have no bookings yet.</p>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Reservations Books -->
+        <div *ngIf="reservations.length">
+          <ion-item-divider color="dark" class="bold">Verified Reservations</ion-item-divider>
+
+          <ion-card *ngFor="let book of reservations">
+            <ion-card-header text-center class="primary-bg">
+              <h3 ion-text class="text-white">
+                Booking ID: <strong>{{ book.transaction_code }}</strong> - {{ book.created_at | date }}
+              </h3>
+            </ion-card-header>
+            <ion-card-content no-padding>
+              <ion-item class="itemm">
+                <h3 ion-text text-wrap color="dark">
+                  <strong>{{ book.pmt_route_id?.name }}</strong>
+                </h3>
+                <h3>Seat: {{ book.seat_quantity | number }} 
+                  ({{ book.seat_positions.join(', ') }})</h3>
+                <h3>Payment: {{ book.payment_gateway }} {{ book.payment_method }}</h3>
+                <h3>Status: {{ book.payment_status }}</h3>
+                <h3>Fare: {{ book.pmt_schedule_id?.fare | currency:'NGN' }}</h3>
+              </ion-item>
+            </ion-card-content>
+
+            <hr class="primary-hr" no-margin>
+            <ion-card-content class="green-bg" text-center>
+              <h5 class="bold text-white">{{ book.reservation_status }}</h5>
+            </ion-card-content>
+          </ion-card>
+        </div>
+
+        <!-- Bookings Books -->
+        <div *ngIf="bookings.length">
+          <ion-item-divider color="dark" class="bold">Unverified Reservations</ion-item-divider>
+
+          <ion-card *ngFor="let book of reservations">
+            <ion-card-header text-center class="primary-bg">
+              <h3 ion-text class="text-white">
+                Booking ID: <strong>{{ book.transaction_code }}</strong> - {{ book.created_at | date }}
+              </h3>
+            </ion-card-header>
+            <ion-card-content no-padding *ngIf="book.pmt_route_id">
+              <ion-item class="itemm">
+                <h2 ion-text color="dark">
+                  <strong>{{ book.pmt_route_id?.name }}</strong> -
+                  <strong>{{ book.description }}</strong>
+                </h2>
+                <h3>{{ book.seat_quantity | number }} ({{ book.seat_positions.join(', ') }})</h3>
+                <h3 ion-text color="light">
+                  <strong>{{ book.payment_gateway }}</strong>
+                  <ion-icon name="bus" color="light"></ion-icon>
+                  <strong>{{ book.payment_status }}</strong>
+                </h3>
+
+                <div item-end>
+                  <ion-badge class="light-bg">
+                    <h3 class="bold">Status</h3>{{ book.reservation_status }}
+                  </ion-badge>
+                </div>
+              </ion-item>
+            </ion-card-content>
+
+            <hr class="primary-hr" no-margin>
+
+            <ion-card-content class="green-bg" text-center>
+              <h6 class="text-white">Fare:</h6>
+              <h5 class="bold text-2x text-white">{{ book.pmt_schedule_id?.fare | currency:'NGN' }}</h5>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

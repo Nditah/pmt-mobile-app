@@ -1,0 +1,89 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>
+            <span ion-text>Edit Profile</span>
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="profile common-bg">
+
+    <ion-card *ngIf="user">
+      <ion-card-content class="profile-bg">
+          <img src="assets/img/avatar.jpeg">
+          <h2 class="fw500">{{ user.title }} {{ user.surname }} {{ user.other_name }}</h2>
+          <h3 ion-text color="light">Customer</h3>
+			</ion-card-content>
+			
+			<form [formGroup]="editForm" class="list-form">
+
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col col-12 margin-bottom padding>
+
+  	        <ion-item>
+  	          <ion-label color="dark" stacked>Surname:</ion-label>
+  	          <ion-input type="text" formControlName="surname" id="surname"></ion-input>
+  	        </ion-item>
+
+						<ion-item>
+							<ion-label color="dark" stacked>Other name:</ion-label>
+							<ion-input type="text" formControlName="other_name" id="other_name"></ion-input>
+						</ion-item>
+						
+  				  <ion-item>
+  				    <ion-label color="dark" stacked>Gender</ion-label>
+  				    <ion-select>
+  				      <ion-option value="MALE">Male</ion-option>
+  				      <ion-option value="FEMALE">Female</ion-option>
+  				    </ion-select>
+  				  </ion-item>
+
+  	        <ion-item>
+							<ion-label color="dark" stacked>Phone:</ion-label>
+							<ion-input type="text" formControlName="phone" id="phone"></ion-input>
+						</ion-item>
+
+  	        <ion-item>
+  	          <ion-label color="dark" stacked>Email:</ion-label>
+							<ion-input type="email" formControlName="email" id="email"></ion-input>
+  	        </ion-item>
+
+  	        <ion-item>
+  	          <ion-label color="dark" stacked>Password:</ion-label>
+							<ion-input type="password" formControlName="password" id="password"></ion-input>
+  	        </ion-item>
+
+  	        <ion-item>
+  	          <ion-label color="dark" stacked>Address:</ion-label>
+							<ion-input type="text" formControlName="address" id="address"></ion-input>
+  	        </ion-item>
+
+  	        <ion-item>
+							<ion-label color="dark" stacked>Next-of-kin:</ion-label>
+							<ion-input type="text" formControlName="contact_person" id="contact_person"></ion-input>
+						</ion-item>
+
+  	        <ion-item>
+							<ion-label color="dark" stacked>Next-of-kin Phone:</ion-label>
+							<ion-input type="text" formControlName="contact_person_phone" id="contact_person_phone"></ion-input>
+						</ion-item>
+
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+			<button ion-button large full color="dark" [disabled]="!editForm.valid" (click)="onSubmit()">Update</button>
+		</form>
+		</ion-card>
+
+    <div padding>
+      <p ion-text color="dark" no-margin>
+				Thanks for using our PMT Online App
+       </p>
+    </div>
+
+</ion-content>

@@ -1,0 +1,59 @@
+<!--  -->
+<ion-header>
+  <ion-navbar class="no-border" color="dark">
+    <ion-title>Schedule <span ion-text color="light">Results</span></ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="common-bg schedules">
+  <!--  -->
+  <ion-toolbar padding color="secondary">
+    <p ion-text no-margin text-center class="text-white">
+        <strong>{{ bookingData?.terminalFrom.name }} => {{ bookingData?.terminalTo.name }}</strong> 
+        <strong>{{ sbookingData?.boardingDate | date:'MMMM dd' }}</strong> 
+        <br/>{{ schedules.length ? schedules.length : "No" }} results found!
+    </p>
+  </ion-toolbar>
+
+  <ion-grid>
+    <ion-row>
+      <!--list of car shops-->
+      <ion-col col-12 col-md-6 col-lg-6 col-xl-4 *ngFor="let schedule of schedules" tappable (click)="chooseSchedule(schedule)">
+
+        <ion-card no-margin class="w100">
+          <ion-card-content no-padding>
+            <ion-item class="itemm">
+              <ion-thumbnail item-start>
+                <img [src]="vehicleLogo">
+              </ion-thumbnail>
+              <h3 ion-text color="dark">
+                <strong>{{ schedule?.boarding_date | date:'h:mm a' }}</strong>
+              </h3>
+              <h3> {{ seatsAvailable(schedule) }} Seats</h3>
+              <h3 ion-text color="light">
+                <strong>{{ schedule.is_reservable ? "Available" : "Closed" }}</strong>
+              </h3>
+
+              <div item-end>
+                <ion-badge class="green-bg">
+                  <h3 class="bold text-white">&#8358; {{ schedule.fare | number }}</h3>
+                </ion-badge>
+                <!-- <p class="text-sm">{{ schedule.schedule_status }}</p> -->
+              </div>
+            </ion-item>
+
+            <hr class="primary-hr" no-margin>
+
+            <ion-item class="itemm" text-center>
+              <span ion-text class="text-sm">
+                <strong ion-text color="secondary">{{ schedule.vehicle_id.seating_capacity }} Seaters </strong>
+                 • {{ schedule.vehicle_id?.vehicle_class | lowercase }} class | {{ schedule.vehicle_id?.vehicle_type | lowercase }}
+              </span>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
