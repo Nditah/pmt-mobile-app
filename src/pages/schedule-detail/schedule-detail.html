@@ -1,0 +1,106 @@
+<!-- -->
+<ion-header>
+  <ion-navbar class="no-border" color="primary">
+    <ion-title>Schedule Detail</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="common-bg">
+  <!--  -->
+  <ion-toolbar padding color="secondary">
+    <h3 ion-text no-margin class="text-white text-1x">
+      <strong>{{ schedule.pmt_route_id?.name }}</strong>
+    </h3>
+  </ion-toolbar>
+
+  <ion-grid fixed>
+    <ion-row margin-bottom>
+
+      <ion-col col-12 col-md-6 *ngIf="schedule">
+        <ion-card no-margin class="w100">
+          <ion-card-header class="primary-bg">
+            <h3 class="text-1x text-white bold">
+              <ion-icon name="bus"></ion-icon>
+              Select your seat(s)
+            </h3>
+          </ion-card-header>
+          <hr class="primary-hr" no-margin>
+          <ion-card-content no-padding>
+            <ion-item class="itemm">
+                <ion-thumbnail item-start>
+                  <img [src]="vehicleLogo">
+                </ion-thumbnail>
+                <h3 ion-text color="dark">
+                  <strong>{{ schedule?.boarding_date | date:'h:mm a' }}</strong>
+                </h3>
+                <h3> {{ seatsAvailable(schedule) }} Seats</h3>
+                <h3 ion-text color="light">
+                  <strong>{{ schedule.is_reservable ? "Available" : "Closed" }}</strong>
+                </h3>
+  
+                <div item-end>
+                  <ion-badge class="green-bg">
+                    <h3 class="bold text-white">&#8358; {{ schedule.fare | number }}</h3>
+                  </ion-badge>
+                  <!-- <p class="text-sm">{{ schedule.schedule_status }}</p> -->
+                </div>
+              </ion-item>
+            <ion-item class="itemm" text-center>
+                <span ion-text class="text-sm">
+                  <strong ion-text color="secondary">{{ schedule.pmt_route_id?.name }} </strong> • {{ schedule.vehicle_id?.vehicle_class | lowercase }} class | {{ schedule.vehicle_id?.vehicle_type }}
+                </span>
+              </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row margin-bottom>
+      <ion-col col-12>
+        <ion-card no-margin class="w100">
+          <ion-card-content no-padding>
+            <ion-item class="border-bottom" *ngFor="let s of getSeats()" text-wrap tappable (click)="selectSeat(s)">
+              <ion-thumbnail item-start>
+                <div *ngIf="isSeatSelected(s)"><img [src]="selectedSeat"></div>
+                <div *ngIf="isSeatAvailable(s) && !isSeatSelected(s)"><img [src]="emptySeat"></div>
+                <div *ngIf="!isSeatAvailable(s)"><img [src]="occupiedSeat"></div>
+                </ion-thumbnail>
+              <ion-label><button ion-button round small [color]="seatColor(s)"><h2> {{ s }} </h2></button> </ion-label>
+              <div color="green-bg" *ngIf="isSeatSelected(s)" item-end>
+                  <ion-icon name="checkmark-circle" style="zoom:2.0;"></ion-icon>
+              </div>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+      </ion-col>
+    </ion-row>
+    
+    <ion-row>
+      <ion-col col-12>
+        <ion-item class="itemm">
+          <h3 ion-text color="dark">
+            Seat Quantity: <strong>{{ seatPositions?.length | number }} </strong>
+          </h3>
+          <h3 ion-text color="dark">
+            Seat Positions: <strong>{{ seatPositions.join(', ')}}</strong>
+          </h3>
+          <div item-end>
+            <ion-badge class="green-bg">
+              <h3 class="bold text-white">&#8358; {{ ( seatPositions?.length * schedule.fare) | number }}</h3>
+            </ion-badge>
+            <p class="text-sm">Amount</p>
+          </div>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col col-12>
+        <button ion-button large full round color="secondary" (click)="checkout()">Continue Booking</button>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,72 @@
+<!-- -->
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Booking Checkout</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="checkout-bookingData common-bg">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col col-12 margin-bottom *ngIf="bookingData">
+        <!--bookingData information--> 
+        <ion-card no-margin class="w100">
+          <ion-card-content class="booking-info" no-padding>
+
+            <div class="booking-image border-bottom" [ngStyle]="{'background-image': 'url(' + bgImage + ')'}"></div>
+            <ion-grid padding>
+              <ion-row>
+                <ion-col col-12 no-padding>
+
+                  <ion-item class="itemm" no-padding margin-bottom>
+                    <ion-thumbnail item-start>
+                      <img [src]="vehicleLogo">
+                    </ion-thumbnail>
+                    <h2 ion-text color="dark">
+                      {{ bookingData.customer?.title }} {{ bookingData.customer?.surname }} {{ bookingData.customer?.other_name }}
+                    </h2>
+                    <h3 ion-text color="dark">
+                      <strong>Date:</strong> {{ bookingData.pmtSchedule?.boarding_date | date:'MMMM dd' }}
+                    </h3>
+                    <h3 ion-text color="dark">
+                      <strong>Time:</strong> {{ bookingData.pmtSchedule?.boarding_date | date:'h:mm a' }}
+                    </h3>
+                    <h3 ion-text color="light" *ngIf="bookingData.seatPositions">
+                      <strong>Seats: </strong>{{ bookingData.seatPositions.length }}
+                        [{{ bookingData.seatPositions.join(', ') }}]
+                    </h3>
+                  </ion-item>
+
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card no-margin margin-vertical class="w100">
+          <ion-card-content class="green-bg" text-center>
+            <h5 class="text-white">Amount:</h5>
+            <h3 class="bold text-2x text-white">&#8358; {{ bookingData.amount | number }}</h3>
+          </ion-card-content>
+        </ion-card>
+
+        <hr class="primary-hr">
+
+        <!--submit button-->        
+        <button ion-button color="secondary" margin-top full large round tappable
+        angular4-paystack
+        [key]="'pk_test_6a8eb7d53f4187cc1bb9373d71f25f2d9c5c45be'"
+        [email]="bookingData.customer?.email"
+        [amount]="bookingData.amount * 100"
+        [currency]="'NGN'"
+        [ref]="trxref"
+        [metadata]="metadata"
+        [class]="'btn btn-primary'"
+        (close)="paymentCancel()"
+        (callback)="paymentDone($event)"
+      >Pay Now</button>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

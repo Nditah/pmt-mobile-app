@@ -1,0 +1,97 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>
+            <span ion-text>Support</span>
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="common-bg">
+
+    <div class="support-header">
+        <img src="assets/img/support-app.jpg">
+    </div>
+
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col col-12 margin-bottom>
+    <!-- 
+        <ion-card class="full-width" no-margin>
+            <h2>FAQs:</h2>
+            <ion-list>
+                <ion-item *ngFor="let d of accordions; let i=index" text-wrap (click)="toggleGroup(i)" [ngClass]="{active: isGroupShown(i)}">
+                <div>
+                    {{d.name}}
+                    <ion-icon color="success" item-right [name]="isGroupShown(i) ? 'arrow-dropdown' : 'arrow-dropright'" item-end></ion-icon>
+                </div>
+                <div *ngIf="isGroupShown(i)">{{d.description}}</div>
+                </ion-item>
+            </ion-list>
+        </ion-card>
+    -->
+        <ion-card class="full-width" no-margin>
+
+                <div class="main-content" text-wrap text-center>
+                    <!--   <div class="circular"><img src="assets/img/logo.png"></div> --> 
+                      <h2>{{ company.name}}</h2>
+                      <p>{{ company.occupation}} &bull; {{ company.location}}</p>
+                      <p class="profile-description">{{ company.description}}</p>
+                      <hr>
+                      <ion-list no-lines>
+                        <ion-item>
+                          <ion-icon name="mail" color="primary" item-start></ion-icon>
+                          <p>Email</p>
+                          {{ company.email}}
+                          <a button ion-button href="mailto:{{ company.email}}" color="primary" item-end medium>Mail us</a>
+                        </ion-item>
+                        <ion-item>
+                          <ion-icon item-start name="call" color="danger"></ion-icon>
+                          <p>Mobile</p>
+                          {{ company.phone}}
+                          <a button ion-button href="tel:{{ company.phone}}" color="danger" item-end medium>Call us</a>
+                        </ion-item>
+                        <ion-item>
+                          <ion-icon item-start name="call" color="danger"></ion-icon>
+                          <p>SMS</p>
+                          {{ company.sms}}
+                          <a button ion-button href="tel:{{ company.sms}}" color="danger" item-end medium>SMS us</a>
+                        </ion-item>
+                        <ion-item>
+                          <ion-icon item-start name="logo-whatsapp" color="secondary"></ion-icon>
+                          <p>Whatsapp</p>
+                          {{ company.whatsapp}}
+                          <a button ion-button color="secondary" item-end medium href="whatsapp://send?text=Hi from ionic&phone=+{{ company.phone}}&abid=+{{ company.phone}}">Open App</a>
+                        </ion-item>
+                        <ion-item>
+                          <ion-icon item-start name="pin" color="twitter"></ion-icon>
+                          <p>{{ company.address}}</p>
+                        </ion-item>
+                      </ion-list>
+                      <h2>Get in touch</h2>
+                      <hr>
+                      <a href="https://www.linkedin.com/company/11410952/" button ion-button block color="linkedin" icon-start>
+                        <ion-icon name='logo-linkedin'></ion-icon>
+                        LinkedIn
+                      </a>
+                      <a href="https://www.facebook.com/PeaceMassTransit/" button ion-button block color="fb" icon-start>
+                        <ion-icon name='logo-facebook'></ion-icon>
+                        Facebook
+                      </a>
+                      <a href="https://twitter.com/PMTNigeria" button ion-button block color="twitter" icon-start>
+                        <ion-icon name='logo-twitter'></ion-icon>
+                        Twitter
+                      </a>
+                    </div>            
+
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    
+        
+  </ion-grid>
+
+</ion-content>
