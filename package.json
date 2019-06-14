@@ -5,6 +5,7 @@
   "homepage": "https://pmt.ng/",
   "private": true,
   "scripts": {
+    "dev": "ionic serve",
     "start": "ionic-app-scripts serve",
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
@@ -43,12 +44,14 @@
     "ionic-angular": "3.9.5",
     "ionic-plugin-keyboard": "^2.2.1",
     "ionicons": "3.0.0",
+    "npm": "^6.9.0",
     "rxjs": "5.5.11",
     "sw-toolbox": "3.6.0",
     "zone.js": "0.8.29"
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.2.2",
+    "@ionic/lab": "2.0.2",
     "typescript": "~2.6.2"
   },
   "description": "pmtOnline: Inter-city mass transit booking app.",

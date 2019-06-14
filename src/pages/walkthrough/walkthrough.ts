@@ -58,7 +58,7 @@ export class WalkthroughPage {
   }
 
   onLastSlide() {
-  	this.slides.slideTo(3, 300)
+  	this.slides.slideTo(5, 300);
   }
 
   openHomePage() {

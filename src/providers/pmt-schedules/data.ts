@@ -250,10 +250,10 @@ const table = [
 ];
 
 
-const result = [] /*table.map((record, index) => {
+const result = table.map((record, index) => {
     const obj = Object.assign({}, record);
     obj.vehicle_id.description = "Vehicle description";
     return obj;
 });
-*/
+
 export default result;

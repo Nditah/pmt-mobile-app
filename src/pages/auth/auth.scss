@@ -62,12 +62,12 @@ page-auth,
             	margin-top: 0;
             }
           }
-
-          input {
-            color: color($colors, secondary);
-          }
         }
       }
     }
   }
+}
+
+.auth-page .scroll-content .login-content .list-form ion-item input, .select-text {
+  color: white !important;
 }

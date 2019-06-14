@@ -2,13 +2,13 @@
 
   <ion-menu side="left" id="authenticated" [content]="content">
     <ion-header>
-      <ion-toolbar class="user-profile nav-transparent">
+      <ion-toolbar no-padding class="user-profile nav-transparent">
 
         <ion-grid>
           <ion-row>
             <ion-col col-4>
               <ion-avatar item-start>
-                <img class="user-avatar" src="assets/img/avatar.jpeg">
+                <img class="user-avatar" src="assets/img/avatar.svg">
               </ion-avatar>
             </ion-col>
             <ion-col col-8 *ngIf="user">
@@ -29,14 +29,14 @@
           </ion-row>
         </ion-grid>
 
-        <ion-grid no-padding>
+        <ion-grid no-padding no-margin>
           <ion-row class="other-data">
             <ion-col text-center class="column">
-              <span ion-text color="light" class="bold">Points</span>
+              <span ion-text color="secondary" class="bold">Points</span>
               <h5 ion-text no-margin class="text-1x text-white">2.0</h5>
             </ion-col>
             <ion-col text-center class="column">
-              <span ion-text color="light" class="bold">Location</span>
+              <span ion-text color="secondary" class="bold">Location</span>
               <h5 ion-text no-margin class="text-1x text-white">Nigeria</h5>
             </ion-col>
           </ion-row>
@@ -50,7 +50,7 @@
       <ion-list class="user-list">
         <button ion-item menuClose class="text-1x" *ngFor="let menuItem of appMenuItems" (click)="openPage(menuItem)">
           <ion-icon item-left [name]="menuItem.icon" color="primary"></ion-icon>
-          <span ion-text color="primary">{{menuItem.title}}</span>
+          <span ion-text color="medium">{{menuItem.title}}</span>
         </button>
       </ion-list>
     </ion-content>

@@ -14,27 +14,31 @@
     <div class="booking-card" padding>
       <ion-grid class="card" fixed>
 
-        <ion-row>
-          <ion-col col-12 no-padding>
-
-            <ion-card no-margin class="full-width">
+        <ion-card no-margin class="full-width">
+          <ion-row>
+            <ion-col col-12 no-padding>
               <ion-item tappable (click)="chooseTerminal('from')" class="border-bottom">
                 <ion-icon name="home" color="primary" item-left></ion-icon>
                 <p ion-text color="light" class="text-sm">Origin terminal</p>
                 <span ion-text color="dark" class="bold">{{ bookingData?.terminalFrom?.name }}</span>
               </ion-item>
+            </ion-col>
 
+            <ion-col col-12 no-padding>
               <ion-item tappable (click)="chooseTerminal('to')" class="border-bottom">
                 <ion-icon name="pin" color="primary" item-left></ion-icon>
                 <p ion-text color="light" class="text-sm">Destination terminal</p>
                 <span ion-text color="dark" class="bold">{{ bookingData?.terminalTo?.name }}</span>
               </ion-item>
+            </ion-col>
 
+            <ion-col col-12 no-padding>
               <ion-item tappable (click)="openCalendar()" class="border-bottom  br bb datetime-btn" >
                 <ion-icon name="md-calendar" color="primary" item-left></ion-icon>
                 <p ion-text color="light" class="text-sm">Travelling on</p>
                 <span ion-text color="dark" class="bold">{{ bookingData?.boardingDate }}</span>
               </ion-item>
+            </ion-col>
 <!--
               <ion-item class="border-bottom">
                 <ion-icon name="md-calendar" color="primary" item-left></ion-icon>
@@ -44,17 +48,16 @@
                 </ion-select>
               </ion-item>
 -->
-            </ion-card>
-          </ion-col>
-        </ion-row>
+          </ion-row>
       
-        <ion-row>
-          <ion-col no-padding>
-            <button ion-button block color="secondary" class="round" no-margin tappable (click)="doSearch()">
-              <ion-icon name="bus"></ion-icon>Search
-            </button>
-          </ion-col>
-        </ion-row>
+          <ion-row>
+            <ion-col col-12 no-padding>
+              <button ion-button block color="secondary" full large no-margin tappable (click)="doSearch()">
+                <ion-icon name="bus"></ion-icon>Search
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-card>
       </ion-grid>
     </div>
   </div>

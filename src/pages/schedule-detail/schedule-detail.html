@@ -60,20 +60,28 @@
       <ion-col col-12>
         <ion-card no-margin class="w100">
           <ion-card-content no-padding>
-            <ion-item class="border-bottom" *ngFor="let s of getSeats()" text-wrap tappable (click)="selectSeat(s)">
-              <ion-thumbnail item-start>
-                <div *ngIf="isSeatSelected(s)"><img [src]="selectedSeat"></div>
-                <div *ngIf="isSeatAvailable(s) && !isSeatSelected(s)"><img [src]="emptySeat"></div>
-                <div *ngIf="!isSeatAvailable(s)"><img [src]="occupiedSeat"></div>
-                </ion-thumbnail>
-              <ion-label><button ion-button round small [color]="seatColor(s)"><h2> {{ s }} </h2></button> </ion-label>
-              <div color="green-bg" *ngIf="isSeatSelected(s)" item-end>
-                  <ion-icon name="checkmark-circle" style="zoom:2.0;"></ion-icon>
-              </div>
-            </ion-item>
+            <ion-row>
+              <ion-col col-3></ion-col>
+              <ion-col col-3></ion-col>
+              <ion-col col-3 *ngFor="let s of getSeats()">
+                <ion-item class="border-bottom" text-wrap tappable (click)="selectSeat(s)">
+                  <ion-avatar align-items-center>
+                    <div *ngIf="isSeatSelected(s)"><img class="seat-img" [src]="selectedSeat"></div>
+                    <div *ngIf="isSeatAvailable(s) && !isSeatSelected(s)"><img class="seat-img" [src]="emptySeat"></div>
+                    <div *ngIf="!isSeatAvailable(s)"><img class="seat-img" [src]="occupiedSeat"></div>
+                    <span ion-text *ngIf="!isSeatSelected(s)" class="seat-num" [color]="seatColor(s)">{{s}}</span>
+                    <div *ngIf="isSeatSelected(s)">
+                      <ion-icon name="checkmark-circle" [color]="seatColor(s)" class="seat-num"></ion-icon>
+                    </div>
+                  </ion-avatar>
+<!--                  <ion-label>-->
+<!--                    <button ion-button round small [color]="seatColor(s)"><h2> {{ s }} </h2></button>-->
+<!--                  </ion-label>-->
+                </ion-item>
+              </ion-col>
+            </ion-row>
           </ion-card-content>
         </ion-card>
-
       </ion-col>
     </ion-row>
     

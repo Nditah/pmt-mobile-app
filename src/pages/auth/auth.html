@@ -7,14 +7,14 @@
 			<div class="logo">
 			</div>
 			<h2 ion-text class="text-white" no-margin>
-				<span ion-text color="light">PMT</span><strong>Online</strong>
+				<span ion-text color="secondary">PMT</span><strong>Online</strong>
 			</h2>
 		</div>
 
 		<div padding-vertical>
-		  <ion-segment [(ngModel)]="auth" color="light">
-		    <ion-segment-button value="login">Login</ion-segment-button>
-		    <ion-segment-button value="register">Register</ion-segment-button>
+		  <ion-segment [(ngModel)]="auth" color="secondary">
+		    <ion-segment-button value="login" class="text-white">Login</ion-segment-button>
+		    <ion-segment-button value="register" class="text-white">Register</ion-segment-button>
 		  </ion-segment>
 		</div>
 
@@ -27,7 +27,7 @@
 		          <ion-icon name="call" item-start class="text-white"></ion-icon>
 		          Phone
 		        </ion-label>
-		        <ion-input type="phone" formControlName="phone"></ion-input>
+		        <ion-input color="secondary" type="phone" formControlName="phone"></ion-input>
 		      </ion-item>
 		      <p ion-text color="danger" class="text-1x has-error" *ngIf="onRegisterForm.get('phone').touched && onRegisterForm.get('phone').hasError('required')">This field is required</p>
 					
@@ -91,7 +91,7 @@
 		          <ion-icon name="female" item-start class="text-white"></ion-icon>
 		          Gender
 		        </ion-label>
-		        <ion-select formControlName="gender" id="gender" interface="popover">
+		        <ion-select color="white" formControlName="gender" id="gender" interface="popover">
 							<ion-option value="MALE">Male</ion-option>
 							<ion-option value="FEMALE">Female</ion-option>
 						</ion-select>

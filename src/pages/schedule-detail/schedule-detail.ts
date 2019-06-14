@@ -41,7 +41,7 @@ export class ScheduleDetailPage {
   }
 
   seatColor(s): string {
-    return this.isSeatAvailable(s) ? 'energy' : 'secondary';
+    return this.isSeatAvailable(s) ? 'green' : 'secondary';
   }
 
   selectSeat(seat) {

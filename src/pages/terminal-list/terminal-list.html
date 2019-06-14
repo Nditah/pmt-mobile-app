@@ -18,19 +18,19 @@
         </ion-card>
 
         <ion-list *ngIf="terminals.length > 0">
-            <ion-item-sliding *ngFor="let terminal of terminals">
-                <ion-item class="itemm" text-wrap>
-                    <ion-thumbnail item-start>
-                        <img src="{{ terminal.photo }}"/>
-                    </ion-thumbnail>
-                    <h2 ion-text color="secondary">
-                      <strong>{{ terminal.name  }}</strong>
-                    </h2>
-                    <h3> <strong>{{ terminal.phone }}</strong></h3>
-                    <h4>{{ terminal.manager }}</h4>
-                    <p>{{ terminal.address }}</p>
-                  </ion-item>
-            </ion-item-sliding>
+          <ion-item-sliding *ngFor="let terminal of terminals">
+            <ion-item class="itemm" text-wrap>
+              <ion-thumbnail item-start class="round">
+                <img src="{{ terminal.photo }}"/>
+              </ion-thumbnail>
+              <h2 ion-text color="secondary">
+                <strong>{{ terminal.name  }}</strong>
+              </h2>
+              <h3> <strong>{{ terminal.phone }}</strong></h3>
+              <h4>{{ terminal.manager }}</h4>
+              <p>{{ terminal.address }}</p>
+            </ion-item>
+          </ion-item-sliding>
         </ion-list>
       </ion-col>
     </ion-row>

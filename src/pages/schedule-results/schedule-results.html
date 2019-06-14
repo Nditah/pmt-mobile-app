@@ -9,9 +9,11 @@
   <!--  -->
   <ion-toolbar padding color="secondary">
     <p ion-text no-margin text-center class="text-white">
-        <strong>{{ bookingData?.terminalFrom.name }} => {{ bookingData?.terminalTo.name }}</strong> 
-        <strong>{{ sbookingData?.boardingDate | date:'MMMM dd' }}</strong> 
-        <br/>{{ schedules.length ? schedules.length : "No" }} results found!
+      <strong>{{ bookingData?.terminalFrom.name }} => {{ bookingData?.terminalTo.name }}</strong>
+      <br/>
+      <strong>{{ bookingData?.boardingDate | date:'MMMM dd' }}</strong>
+      <br/>
+      {{ schedules.length ? schedules.length : "No" }} results found!
     </p>
   </ion-toolbar>
 
