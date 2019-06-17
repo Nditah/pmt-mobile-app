@@ -60,6 +60,32 @@ export class ScheduleDetailPage {
     const N = this.schedule.vehicle_id.seating_capacity || 16; // seatCapacity
     return Array.from({length: N}, (v, k) => k+1); 
   }
+
+  padSeats(seats: number[]): number[] {
+    switch (seats.length) {
+      case 14:
+        seats.splice(0, 0, null, null);
+        seats.splice(7, 0, null);
+        seats.splice(11, 0, null);
+        seats.splice(15, 0, null);
+        break;
+      case 15:
+        // 0:1
+        seats.splice(0, 0, null, null);
+        seats.splice(7, 0, null);
+        seats.splice(11, 0, null);
+        seats.splice(15, 0, null);
+        break;
+      case 16:
+      default:
+        seats.splice(0, 0, null, null);
+        seats.splice(11, 0, null);
+        seats.splice(15, 0, null);
+    }
+    console.log(seats);
+    return seats;
+  }
+
   seatsAvailable(schedule: PmtSchedule){
     const totalSeats = schedule.vehicle_id ? schedule.vehicle_id.seating_capacity : 0;
     const reservedSeats = schedule.pmt_reservation_ids ? schedule.pmt_reservation_ids.length : 0;

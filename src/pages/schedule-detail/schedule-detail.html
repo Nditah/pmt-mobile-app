@@ -59,12 +59,10 @@
     <ion-row margin-bottom>
       <ion-col col-12>
         <ion-card no-margin class="w100">
-          <ion-card-content no-padding>
+          <ion-card-content>
             <ion-row>
-              <ion-col col-3></ion-col>
-              <ion-col col-3></ion-col>
-              <ion-col col-3 *ngFor="let s of getSeats()">
-                <ion-item class="border-bottom" text-wrap tappable (click)="selectSeat(s)">
+              <ion-col col-3 *ngFor="let s of padSeats(getSeats())">
+                <ion-item *ngIf="s !== null" class="border-bottom" text-wrap tappable (click)="selectSeat(s)">
                   <ion-avatar align-items-center>
                     <div *ngIf="isSeatSelected(s)"><img class="seat-img" [src]="selectedSeat"></div>
                     <div *ngIf="isSeatAvailable(s) && !isSeatSelected(s)"><img class="seat-img" [src]="emptySeat"></div>
@@ -74,9 +72,9 @@
                       <ion-icon name="checkmark-circle" [color]="seatColor(s)" class="seat-num"></ion-icon>
                     </div>
                   </ion-avatar>
-<!--                  <ion-label>-->
-<!--                    <button ion-button round small [color]="seatColor(s)"><h2> {{ s }} </h2></button>-->
-<!--                  </ion-label>-->
+                  <!--                  <ion-label>-->
+                  <!--                    <button ion-button round small [color]="seatColor(s)"><h2> {{ s }} </h2></button>-->
+                  <!--                  </ion-label>-->
                 </ion-item>
               </ion-col>
             </ion-row>
