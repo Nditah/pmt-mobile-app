@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
-import { WeatherProvider } from '../../providers/weather';
+import { Weathers } from '../../providers';
 import { Storage } from '@ionic/storage';
 
 @IonicPage({
@@ -30,7 +30,7 @@ export class LocalWeatherPage {
 
   constructor(
     public navCtrl: NavController,
-    private weatherProvider: WeatherProvider,
+    private weatherProvider: Weathers,
     private storage: Storage) {
   }
 

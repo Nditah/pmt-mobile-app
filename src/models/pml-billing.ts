@@ -5,9 +5,9 @@ export class PmlBilling {
   name: string;
   value: number;
   description: string;
-  created_by?: any;
+  created_by?: Staff;
   created_at?: Date;
-  updated_by?: any;
+  updated_by?: Staff;
   updated_at?: Date;
 
   constructor(fields: any) {
@@ -26,9 +26,9 @@ export interface PmlBilling {
   name: string;
   value: number;
   description: string;
-  created_by?: any;
+  created_by?: Staff;
   created_at?: Date;
-  updated_by?: any;
+  updated_by?: Staff;
   updated_at?: Date;
 }
 

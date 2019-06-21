@@ -2,7 +2,6 @@ import { Terminal } from './terminal';
 import { PmlShipment } from './pml-shipment';
 import { Staff } from './staff';
 import { Driver } from './driver';
-import { Vehicle } from './vehicle';
 import { PmlWaybill } from './pml-waybill';
 
 export class PmlRouting {
@@ -22,9 +21,9 @@ export class PmlRouting {
   forwarding_charge: number;
   remark: string;
   routing_action: RoutingAction;
-  created_by?: any;
+  created_by?: Staff;
   created_at?: Date;
-  updated_by?: any;
+  updated_by?: Staff;
   updated_at?: Date;
 
   constructor(fields: any) {
@@ -54,9 +53,9 @@ export interface PmlRouting {
   forwarding_charge: number;
   remark: string;
   routing_action: RoutingAction;
-  created_by?: any;
+  created_by?: Staff;
   created_at?: Date;
-  updated_by?: any;
+  updated_by?: Staff;
   updated_at?: Date;
 }
 

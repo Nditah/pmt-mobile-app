@@ -14,8 +14,6 @@ export class Driver {
     gender?: string;
     birth_date: string;
     marital_status?: string;
-    // children: number;
-    // village: string;
     address: string;
     state_id?: State;
     country_iso2?: string;
@@ -23,7 +21,7 @@ export class Driver {
     password?: string;
     otp?: string;
     otp_count?: number;
-    //otp_access: boolean;
+    otp_access: boolean;
     email?: string;
     phone: string;
     phone_personal?: string;
@@ -51,8 +49,8 @@ export class Driver {
     approved_date?: string;
     employment_status?: string;
     disengaged_date?: string;
-    created_by?: any;
-    updated_by?: any;
+    created_by?: Staff;
+    updated_by?: Staff;
 
     constructor(fields: any) {
         // Quick and dirty extend/assign fields to this model
@@ -75,8 +73,6 @@ export interface Driver {
     gender?: string;
     birth_date: string;
     marital_status?: string;
-    // children: number;
-    // village: string;
     address: string;
     state_id?: State;
     country_iso2?: string;
@@ -84,7 +80,7 @@ export interface Driver {
     password?: string;
     otp?: string;
     otp_count?: number;
-    //otp_access: boolean;
+    otp_access: boolean;
     email?: string;
     phone: string;
     phone_personal?: string;
@@ -113,7 +109,7 @@ export interface Driver {
     employment_status?: string;
     disengage_by?: string;
     disengaged_date?: string;
-    created_by?: any;
-    updated_by?: any;
+    created_by?: Staff;
+    updated_by?: Staff;
 }
 

@@ -136,7 +136,7 @@ export class CheckoutBookingPage {
           {
               display_name: "Terminal From",
               variable_name: "terminalFrom",
-              value: this.bookingData.pmtRoute.terminalFrom,
+              value: this.bookingData.pmtRoute.terminal1_id,
           },
           {
             display_name: "PMT Route",

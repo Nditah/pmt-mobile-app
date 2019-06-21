@@ -1,15 +1,26 @@
 {
   "name": "pmt-online",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://pmt.ng/",
+  "author": "Nditah Samweld<nditah@gmail.com>",
+  "homepage": "https://nditah.com/",
   "private": true,
+  "description": "PMTOnline: Inter-city mass transit booking app.",
   "scripts": {
     "dev": "ionic serve",
     "start": "ionic-app-scripts serve",
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
-    "lint": "ionic-app-scripts lint"
+    "lint": "ionic-app-scripts lint",
+    "clean2": "sudo rm -rf node_modules && npm rebuild node-sass && npm i",
+    "serve": "ionic serve --lab --debug",
+    "ionic:android": "ionic cordova platform add android",
+    "ionic:build:android": "cordova build android --prod --release  --stacktrace",
+    "create:key": "keytool -genkey -v -keystore my-release-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias my-alias",
+    "sign:app": "jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.jks  platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk my-alias",
+    "zipalign:app": "cd ./platforms/android/app/build/outputs/apk/release && ~/Library/Android/sdk/build-tools/28.0.3/zipalign  -v 4 app-release-unsigned.apk PmtOnline.apk",
+    "verify:app": "cd ./platforms/android/app/build/outputs/apk/release && ~/Library/Android/sdk/build-tools/28.0.3/apksigner verify  PmtOnline.apk",
+    "move:apk": "mv ./platforms/android/app/build/outputs/apk/release/PmtOnline.apk ~/Desktop",
+    "deploy:apk": "npm run ionic:build:android && npm run sign:app"
   },
   "dependencies": {
     "@angular/animations": "5.2.11",
@@ -54,7 +65,6 @@
     "@ionic/lab": "2.0.2",
     "typescript": "~2.6.2"
   },
-  "description": "pmtOnline: Inter-city mass transit booking app.",
   "cordova": {
     "plugins": {
       "cordova-plugin-console": {},
@@ -66,8 +76,9 @@
       "cordova-sqlite-storage": {}
     },
     "platforms": [
-      "android",
-      "ios"
+      "ios",
+      "browser",
+      "android"
     ]
   }
 }

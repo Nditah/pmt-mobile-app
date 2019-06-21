@@ -9,9 +9,9 @@ export class Office {
     office_above :number;
     headed_by : string;
     headed_by2 : string;
-    created_by?: any;
+    created_by?: Staff;
     created_at?: Date;
-    updated_by?: any;
+    updated_by?: Staff;
     updated_at?: Date;
 
     constructor(fields: any) {
@@ -33,9 +33,9 @@ export interface Office {
     office_above :number;
     headed_by : string;
     headed_by2 : string;
-    created_by?: any;
+    created_by?: Staff;
     created_at?: Date;
-    updated_by?: any;
+    updated_by?: Staff;
     updated_at?: Date;
 }
 

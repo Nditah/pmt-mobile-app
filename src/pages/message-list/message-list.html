@@ -23,12 +23,12 @@
 				<ion-list>
 					<ion-item-sliding *ngFor="let message of messages">
 						<button ion-item (click)="itemTapped(message)" [ngClass]="{'light-bg': !message.read}">
-							<h2 [ngClass]="{'fw700 text-white': !message.read}">
-								<ion-icon name="mail" color="dark" *ngIf="!message.read"></ion-icon>
-								<ion-icon name="mail-open" color="primary" *ngIf="message.read"></ion-icon>
-								{{message.title}}
+							<h2 [ngClass]="{'fw700 text-white': message.receive_status !== 'READ'}">
+								<ion-icon name="mail" color="dark" *ngIf="message.receive_status !== 'READ'"></ion-icon>
+								<ion-icon name="mail-open" color="primary" *ngIf="message.receive_status === 'READ'"></ion-icon>
+								{{message.subject}}
 							</h2>
-							<p ion-text color="dark">{{message.senderName}} ∙ {{message.date | date: 'MM/dd/yyyy'}}</p>
+							<p ion-text color="dark">{{ message.sender }} ∙ {{ message.created_at | date: 'MM/dd/yyyy' }}</p>
 						</button>
 						<ion-item-options>
 							<button ion-button color="danger" (click)="deleteItem(message)">Delete</button>

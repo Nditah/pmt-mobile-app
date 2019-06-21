@@ -1,7 +1,6 @@
-import {Component} from '@angular/core';
-import {IonicPage, NavController} from 'ionic-angular';
-import { BookingService } from "../../services";
-import {MessageService} from '../../providers/message-service-mock';
+import { Component } from '@angular/core';
+import { IonicPage, NavController } from 'ionic-angular';
+import { Messages } from '../../providers';
 
 @IonicPage({
 	name: 'page-message-list',
@@ -16,8 +15,9 @@ export class MessageListPage {
 
     messages: Array<any> = [];
 
-    constructor(public navCtrl: NavController, public service: MessageService) {
-        this.getMessages();
+    constructor(public navCtrl: NavController,
+        public messageService: Messages) {
+        this.messages = messageService.query() || [];
     }
 
     itemTapped(message) {
@@ -27,11 +27,7 @@ export class MessageListPage {
     }
 
     deleteItem(message) {
-        this.service.delMessage(message);
-    }
-
-    getMessages() {
-        this.messages = this.service.getMessages();
+        this.messageService.delete(message);
     }
 
 }
