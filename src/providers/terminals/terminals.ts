@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { _throw}  from 'rxjs/observable/throw';
-import { ApiResponse, Notification, Terminal } from '../../models';
+import { ApiResponse, Terminal } from '../../models';
 import { ApiService, EnvService } from '../../services';
 import TerminalData from './table';
 

@@ -83,10 +83,10 @@ export class EditProfilePage implements OnInit  {
       if (data.success) {
           console.log(data.payload);
         }
-        this.authService.createToast(data.message).present();
+        this.authService.createToast(data.message);
       }).catch((error) => {
         console.log(error.message);
-        return this.authService.createToast('Network failure or server unavailable').present();
+        return this.authService.createToast('Network failure or server unavailable');
       })
   }
 

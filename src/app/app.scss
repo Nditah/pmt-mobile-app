@@ -603,7 +603,7 @@ ion-navbar.no-border {
   background-image: linear-gradient(135deg, color($colors, dark), color($colors, primary), color($colors, light));
   &::after {
     content: "";
-    background: url("../assets/img/bg.jpg") no-repeat;
+    background: url("../assets/img/background-1.jpg") no-repeat;
     background-size: cover;
     opacity: 0.1;
     top: 0;

@@ -56,10 +56,11 @@ export class AuthService {
   }
 
   createToast(message: string) {
-    return this.toastCtrl.create({
+    const toast = this.toastCtrl.create({
       message,
       duration: 3000
     });
+    toast.present();
   }
 
   createCustomer(data: any) {
@@ -74,9 +75,9 @@ export class AuthService {
         // console.log('auth.service: res =>', res);
       if (res.success && res.payload) {
         // console.log(`Update successful`, res.payload);
-        // this.bookingService.setBookingData({ customer: res.payload }).then(val => val);
+        this.bookingService.setBookingData({ customer: res.payload }).then(val => val);
       } else {
-        console.log(res.message);
+        // console.log(res.message);
       }
       }));
       return await response.toPromise();
@@ -86,7 +87,7 @@ export class AuthService {
     this.isLoggedIn = false;
     this.bookingService.setBookingData({ customer: null }).then((val) => {
     }).catch((err) => {
-      // console.log('Error retrieving user from storage', err)
+      throw new Error('Error retrieving user from storage ' + err.message);
     });
     // this.navCtrl.popToRoot;
     // this.navCtrl.setRoot('page-auth');
@@ -105,7 +106,7 @@ export class AuthService {
         return null;
       }      
     } catch(err) {
-      console.log('isAuthenticated error', err.message);
+      throw new Error('Error verifying authentication ' + err.message);
     }
   }
 
