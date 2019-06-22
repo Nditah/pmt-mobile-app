@@ -21,7 +21,7 @@
         </ion-card>
 
         <!-- Reservations Books -->
-        <div *ngIf="reservations.length">
+        <div *ngIf="reservations.length > 0">
           <ion-item-divider color="dark" class="bold">Verified Reservations</ion-item-divider>
 
           <ion-card *ngFor="let book of reservations">
@@ -51,7 +51,7 @@
         </div>
 
         <!-- Bookings Books -->
-        <div *ngIf="bookings.length">
+        <div *ngIf="bookings.length > 0">
           <ion-item-divider color="dark" class="bold">Unverified Reservations</ion-item-divider>
 
           <ion-card *ngFor="let book of bookings">

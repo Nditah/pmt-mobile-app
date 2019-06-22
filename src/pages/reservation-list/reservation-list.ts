@@ -19,7 +19,7 @@ export class ReservationListPage implements OnInit {
 
   constructor(public pmtBookings: PmtBookings, 
     public pmtReservations: PmtReservations) {
-    //  this.retrieveData();
+    this.retrieveData();
   }
 
   ionViewDidLoad() {
@@ -27,13 +27,13 @@ export class ReservationListPage implements OnInit {
   }
 
   ngOnInit(){ 
-    this.retrieveData().then();
+    // this.retrieveData().then();
   }
 
   async retrieveData() {
-    const res = await this.pmtReservations.recordRetrieve();
-    if(res.payload.length > 0){
-    this.reservations = res.payload;
+    const res = await this.pmtReservations.query() || [];
+    if(res.length > 0){
+    this.reservations = res;
     }
     const bookings = this.pmtBookings.query() || [];
     if(bookings.length > 0){
