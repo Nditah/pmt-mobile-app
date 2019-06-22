@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { IonicPage, NavController, ModalController } from "ionic-angular";
-import { CalendarModal, CalendarModalOptions, CalendarResult } from "ion2-calendar";
+import { CalendarModal, CalendarModalOptions } from "ion2-calendar";
 import { SearchLocationPage } from "../search-location/search-location";
 import { PmtSchedules } from "../../providers";
 import { BookingService } from "../../services";

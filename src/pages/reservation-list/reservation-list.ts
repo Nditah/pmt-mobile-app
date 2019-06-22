@@ -19,15 +19,16 @@ export class ReservationListPage implements OnInit {
 
   constructor(public pmtBookings: PmtBookings, 
     public pmtReservations: PmtReservations) {
-    this.retrieveData();
+    // this.retrieveData();
   }
 
   ionViewDidLoad() {
     console.log('ReservationListPage ionViewDidLoad');
+    this.retrieveData().then();
   }
 
   ngOnInit(){ 
-    // this.retrieveData().then();
+    
   }
 
   async retrieveData() {

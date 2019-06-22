@@ -49,7 +49,6 @@ export class pmtIonicApp {
       { title: 'FAQs',          component: 'page-faq',                icon: 'help-circle' },
       { title: 'Policy',        component: 'page-policy',             icon: 'warning' },
       { title: 'Walkthrough',   component: 'page-walkthrough',        icon: 'information-circle'},
-      { title: 'About',         component: 'page-about',              icon: 'star-half'},
     ];
   }
 
