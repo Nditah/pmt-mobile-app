@@ -7,6 +7,7 @@ import { map, catchError } from 'rxjs/operators';
 
 @Injectable()
 export class Weathers {
+  
   apiKey = '1e4a0bdb251c64e4';
   url: string;
   queryNotFound: string;

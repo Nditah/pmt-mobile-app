@@ -22,15 +22,13 @@ export class JwtInterceptor  implements HttpInterceptor {
               return next.handle(clonedReq).pipe(
                   catchError(error => {
                       // Perhaps display an error for specific status codes here already?
-                      let msg = error.message;
-
+                      const msg = error.message;
                       let alert = this.alertCtrl.create({
-                          title: 'Injector error.' + error.name,
-                          message: msg,
+                          title: 'Connection Error!',
+                          message: `Please check your network connection. ${error.name} ${msg}`,
                           buttons: ['OK']
                       });
                       alert.present();
-
                       // Pass the error to the caller of the function
                       return _throw(error);
                   })

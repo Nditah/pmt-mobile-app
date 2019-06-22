@@ -53,11 +53,9 @@ export class AuthPage implements OnInit {
   }
 
   async initBooking() {
-    // console.log('calling initBooking...');
     this.bookingData = await this.authService.isAuthenticated();
     if (this.bookingData){
       const page = hasProp(this.bookingData , 'bookingStage') ? this.bookingData.bookingStage : 'page-home';
-      this.createToast('navigating to ' + page);
       this.navCtrl.setRoot(page);
     } else {
       // console.log('..returns ', this.bookingData);

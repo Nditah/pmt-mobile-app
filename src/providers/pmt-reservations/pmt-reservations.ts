@@ -59,8 +59,7 @@ export class PmtReservations {
   }
 
   async recordRetrieve(queryString = ''): Promise<ApiResponse> {
-    const str = queryString || `?customer_id=${this.user.id}&sort=-created_at`;
-    const url = `${this.env.API_URL}/pmt-reservations${str}`;
+    const url = `${this.env.API_URL}/pmt-reservations${queryString}`;
     const proRes = this.apiService.getApi(url).pipe(
         map((res: ApiResponse) => {
             console.log(res);

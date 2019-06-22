@@ -29,7 +29,7 @@ export class Terminal {
         for (const f in fields) {
             this[f] = fields[f];
         }
-        this.photo = '/assets/img/terminal.jpg';
+        this.photo = '/assets/img/bus-logo.jpg';
         this.phone = '07007322362';
     }
 

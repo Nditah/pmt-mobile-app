@@ -38,16 +38,8 @@ export class HomePage {
     this.nav.push('page-schedule-search');
   }
 
-  searchCruises() {
-    this.nav.push('page-cruise-search');
-  }
-
-  searchFlights() {
-    this.nav.push('page-flight-search');
-  }
-
-  searchTrains() {
-    this.nav.push('page-train-search');
+  searchShipment() {
+    this.nav.push('page-shipment-search');
   }
 
   presentNotifications(myEvent) {

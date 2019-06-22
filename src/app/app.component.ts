@@ -39,13 +39,16 @@ export class pmtIonicApp {
     this.initializeApp();
 
     this.appMenuItems = [
-      {title: 'Home', component: 'page-home', icon: 'home'},
-      {title: 'Messages', component: 'page-message-list', icon: 'mail'},
-      // {title: 'Local Weather', component: 'page-local-weather', icon: 'sunny'},
-      {title: 'Terminals', component: 'page-terminal-list', icon: 'pin'},
-      {title: 'Reservations', component: 'page-reservation-list', icon: 'briefcase'},
-      {title: 'Support', component: 'page-support', icon: 'help-buoy'},
-      {title: 'Walkthrough', component: 'page-walkthrough', icon: 'photos'}
+      { title: 'Home',          component: 'page-home',               icon: 'home' },
+      { title: 'Messages',      component: 'page-message-list',       icon: 'mail' },
+      { title: 'Weather',       component: 'page-weather',            icon: 'sunny' },
+      { title: 'Terminals',     component: 'page-terminal-list',      icon: 'pin' },
+      { title: 'Reservations',  component: 'page-reservation-list',   icon: 'bus' },
+      { title: 'Shipment',      component: 'page-shipment-list',      icon: 'briefcase' },
+      { title: 'Contact',       component: 'page-contact',            icon: 'contacts' },
+      { title: 'FAQs',          component: 'page-faq',                icon: 'help-circle' },
+      { title: 'Policy',        component: 'page-policy',             icon: 'warning' },
+      { title: 'Walkthrough',   component: 'page-walkthrough',        icon: 'information-circle'},
     ];
   }
 

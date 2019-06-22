@@ -15,10 +15,8 @@ export class BookingService {
   setBookingData(data: PmtBooking) {
     this.bookingData = Object.assign(this.bookingData, data);
     return this.storage.set('bookingData', JSON.stringify(this.bookingData)).then((data) => {
-      console.log('bookingData currently', this.bookingData);
       return this.bookingData;
     }).catch((err) => {
-      console.log('Error storing bookingData', err);
       throw new Error(`Error storing bookingData, ${err}`);
     }); 
   }
@@ -30,10 +28,8 @@ export class BookingService {
       }
       // this.bookingData = Object.assign(this.bookingData, JSON.parse(data));
       this.bookingData = Object.assign(this.bookingData, new PmtBooking(JSON.parse(data)));
-      console.log('bookingData currently', this.bookingData);
       return this.bookingData;
     }).catch((err) => {
-      console.log('Error storing bookingData', err);
       throw new Error(`Error restoring bookingData, ${err}`);
     });    
   }

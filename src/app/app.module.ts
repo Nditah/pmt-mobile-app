@@ -14,7 +14,7 @@ import { PipesModule } from '../pipes/pipes.module';
 
 import { BookingService, ApiService, AuthService, EnvService, ErrorInterceptor, JwtInterceptor } from '../services';
 import { Weathers, Terminals, Messages, Notifications, PmtBookings, PmtReservations, PmtRoutes,
-  PmtSchedules, Ratings, Settings } from '../providers';
+  PmtSchedules, Ratings, Settings, PmlBillings, PmlRoutings, PmlShipments } from '../providers';
 
 import { pmtIonicApp } from "./app.component";
 
@@ -57,6 +57,7 @@ import { pmtIonicApp } from "./app.component";
     ApiService, AuthService, EnvService, 
     Terminals, Messages, Notifications, PmtBookings, PmtReservations,
     PmtRoutes, PmtSchedules, Ratings, Settings, BookingService,
+    PmlBillings, PmlRoutings, PmlShipments,
   ]
 })
 
