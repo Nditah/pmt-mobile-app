@@ -4,7 +4,7 @@
             <ion-icon name="menu"></ion-icon>
         </button>
         <ion-title>
-            <span ion-text>Booking List</span>
+            <span ion-text>Reservation List</span>
         </ion-title>
     </ion-navbar>
 </ion-header>
@@ -27,7 +27,7 @@
           <ion-card *ngFor="let book of reservations">
             <ion-card-header text-center class="primary-bg">
               <h3 ion-text class="text-white">
-                Booking ID: <strong>{{ book.transaction_code }}</strong> - {{ book.created_at | date }}
+                Reservation ID: <strong>{{ book.transaction_code }}</strong> - {{ book.created_at | date }}
               </h3>
             </ion-card-header>
             <ion-card-content no-padding>
@@ -54,10 +54,10 @@
         <div *ngIf="bookings.length">
           <ion-item-divider color="dark" class="bold">Unverified Reservations</ion-item-divider>
 
-          <ion-card *ngFor="let book of reservations">
+          <ion-card *ngFor="let book of bookings">
             <ion-card-header text-center class="primary-bg">
               <h3 ion-text class="text-white">
-                Booking ID: <strong>{{ book.transaction_code }}</strong> - {{ book.created_at | date }}
+                Reservation ID: <strong>{{ book.transaction_code }}</strong> - {{ book.created_at | date }}
               </h3>
             </ion-card-header>
             <ion-card-content no-padding *ngIf="book.pmt_route_id">

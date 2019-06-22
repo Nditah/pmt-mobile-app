@@ -40,10 +40,10 @@ export class pmtIonicApp {
 
     this.appMenuItems = [
       {title: 'Home', component: 'page-home', icon: 'home'},
-      // {title: 'Messages', component: 'page-message-list', icon: 'mail'},
+      {title: 'Messages', component: 'page-message-list', icon: 'mail'},
       // {title: 'Local Weather', component: 'page-local-weather', icon: 'sunny'},
       {title: 'Terminals', component: 'page-terminal-list', icon: 'pin'},
-      {title: 'Booking List', component: 'page-booking-list', icon: 'briefcase'},
+      {title: 'Reservations', component: 'page-reservation-list', icon: 'briefcase'},
       {title: 'Support', component: 'page-support', icon: 'help-buoy'},
       {title: 'Walkthrough', component: 'page-walkthrough', icon: 'photos'}
     ];

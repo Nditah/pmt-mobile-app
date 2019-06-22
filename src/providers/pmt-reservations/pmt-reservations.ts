@@ -1,23 +1,35 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { _throw}  from 'rxjs/observable/throw';
-import { PmtReservation, ApiResponse } from '../../models';
-import { ApiService, EnvService } from '../../services';
+import { PmtReservation, ApiResponse, Customer } from '../../models';
+import { ApiService, EnvService, AuthService } from '../../services';
+import { hasProp } from '../../helpers';
 
 
 @Injectable()
 export class PmtReservations {
 
   pmtReservations: PmtReservation[] = [];
+  user: Customer;
 
-  constructor(private apiService: ApiService,
-        private env: EnvService) {
+  constructor(private env: EnvService,
+    private apiService: ApiService,
+    private authService: AuthService,
+    ) {
     const pmtReservations = []; // Initial Values
     for (const pmtReservation of pmtReservations) {
       this.pmtReservations.push(new PmtReservation(pmtReservation));
     }
-    this.recordRetrieve();
-  }
+    this.authService.isAuthenticated().then((pmtBooking) => {
+        if (pmtBooking && hasProp(pmtBooking, 'customer')) {
+          this.user = new Customer(pmtBooking.customer);
+          if (hasProp(this.user, 'id')){
+              const queryString = `?customer_id=${this.user.id}&sort=-created_at`;
+              this.recordRetrieve(queryString).then().catch(err => console.log(err));                
+          }
+        }
+      }).catch(err => console.log(err));
+    }
 
   query(params?: any) {
     if (!params) {
@@ -47,20 +59,21 @@ export class PmtReservations {
   }
 
   async recordRetrieve(queryString = ''): Promise<ApiResponse> {
-      const url = `${this.env.API_URL}/pmt-reservations${queryString}`;
-      const proRes = this.apiService.getApi(url).pipe(
-          map((res: ApiResponse) => {
-              console.log(res);
-              if (res.success && res.payload.length > 0) {
-                  res.payload.forEach(element => {
-                      this.add(element);
-                  });
-              } else {
-                  _throw(res.message);
-              }
-              return res;
-          }));
-      return await proRes.toPromise();
+    const str = queryString || `?customer_id=${this.user.id}&sort=-created_at`;
+    const url = `${this.env.API_URL}/pmt-reservations${str}`;
+    const proRes = this.apiService.getApi(url).pipe(
+        map((res: ApiResponse) => {
+            console.log(res);
+            if (res.success && res.payload.length > 0) {
+                res.payload.forEach(element => {
+                    this.add(element);
+                });
+            } else {
+                _throw(res.message);
+            }
+            return res;
+        }));
+    return await proRes.toPromise();
   }
 
   async recordCreate(record: PmtReservation): Promise<ApiResponse> {
