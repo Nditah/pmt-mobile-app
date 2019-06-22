@@ -1,5 +1,7 @@
 ﻿import { City } from './city';
 import { County } from './county';
+import { State } from './state';
+import { Staff } from './staff';
 
 export class Terminal {
     id: string;
@@ -7,9 +9,9 @@ export class Terminal {
     manager?: string;
     phone?: string;
     quarter?: string;
-    city_id?: any;
-    county_id?: any;
-    state_id?: any;
+    city_id?: City;
+    county_id?: County;
+    state_id?: State;
     country_iso2?: string;
     hub_id?: any  
     address?: string;
@@ -20,8 +22,8 @@ export class Terminal {
     is_pmt_operational?: boolean;
     is_pmt_online?: boolean;
     photo?: string;
-    created_by?: any;
-    updated_by?: any;
+    created_by?: Staff;
+    updated_by?: Staff;
 
     constructor(fields: any) {
         for (const f in fields) {
@@ -39,9 +41,9 @@ export interface Terminal {
     manager?: string;
     phone?: string;
     quarter?: string;
-    city_id?: any;
-    county_id?: any;
-    state_id?: any;
+    city_id?: City;
+    county_id?: County;
+    state_id?: State;
     country_iso2?: string;
     hub_id?: any  
     address?: string;
@@ -52,6 +54,6 @@ export interface Terminal {
     is_pmt_operational?: boolean;
     is_pmt_online?: boolean;
     photo?: string;
-    created_by?: any;
-    updated_by?: any;
+    created_by?: Staff;
+    updated_by?: Staff;
 }

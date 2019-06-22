@@ -1,79 +1,56 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { AlertController } from "ionic-angular";
 import { Observable } from 'rxjs';
 import { Storage } from '@ionic/storage';
-import { AlertController, ToastController } from "ionic-angular";
-
+import { _throw } from 'rxjs/observable/throw';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class JwtInterceptor  implements HttpInterceptor {
 
-  token: string = '';
-
-  constructor(public storage: Storage,
-    public alertCtrl: AlertController,
-    public toastCtrl: ToastController) {
-      this.getToken().then((data) => data)
-      .catch((err) => console.log(err));
-    }
-
+  constructor(private storage: Storage, private alertCtrl: AlertController) { }
+ 
   // Intercepts all HTTP requests!
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log(`\n================ ${this.token} ===================\n`);
-    if (!!this.token) {
-      request = request.clone({
-        setHeaders: {
-          'Content-Type':  'application/json',
-          'Authorization': `Bearer ${this.token}`,
-          'cache-control': 'no-cache',
-        }
-      });
-      console.log('\n================request ===================\n');
-      console.log(request);
-      console.log('\n================request ===================\n');
-    }
-    return next.handle(request);
+
+      let promise = this.storage.get('token');
+
+      return Observable.fromPromise(promise)
+          .mergeMap(token => {
+              let clonedReq = this.addToken(request, token);
+              return next.handle(clonedReq).pipe(
+                  catchError(error => {
+                      // Perhaps display an error for specific status codes here already?
+                      let msg = error.message;
+
+                      let alert = this.alertCtrl.create({
+                          title: 'Injector error.' + error.name,
+                          message: msg,
+                          buttons: ['OK']
+                      });
+                      alert.present();
+
+                      // Pass the error to the caller of the function
+                      return _throw(error);
+                  })
+              );
+          });
   }
 
-  showNotification(title, message) {
-    let forgot = this.alertCtrl.create({
-      title: title,
-      message: message,
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Send',
-          handler: data => {
-            console.log('Send clicked');
-            let toast = this.toastCtrl.create({
-              message: 'Email was sended successfully',
-              duration: 3000,
-              position: 'top',
-              cssClass: 'dark-trans',
-              closeButtonText: 'OK',
-              showCloseButton: true
-            });
-            toast.present();
-          }
-        }
-      ]
-    });
-    forgot.present();
-  }
-
-  getToken() {
-    return this.storage.get('token').then((data) => {
-      if (!!data){
-        this.token = data;
+  // Adds the token to your headers if it exists
+  private addToken(request: HttpRequest<any>, token: string) {
+      if (token) {
+          let clone: HttpRequest<any>;
+          clone = request.clone({
+              setHeaders: {
+                  Accept: `application/json`,
+                  'Content-Type': `application/json`,
+                  Authorization: `Bearer ${token}`
+              }
+          });
+          return clone;
       }
-      return;
-    }).catch((err) => {
-      throw new Error(`Error getting JWT bookingData, ${err}`);
-    });    
+      return request;
   }
 }

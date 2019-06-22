@@ -38,18 +38,17 @@ export class AuthService {
 
   async postLogin(data): Promise<LoginResponse> {
     const payload = this.cleanObject(data);
-    console.log('auth.service: payload =>', payload, this.env.API_URL + '/customers/login');
     const response = this.http.post(this.env.API_URL + '/customers/login', payload)
     .pipe(tap((res: LoginResponse) => {
-        console.log('auth.service: res =>', res);
+        // console.log('auth.service: res =>', res);
       if (res.success) {
-        console.log(`Login successful`);
+        // this.createToast(`Login successful`);
         const { user, token } = res.payload;
         this.storage.set('token', token).then(val => val);
         this.bookingService.setBookingData({ customer: user, token }).then(val => val);
         this.isLoggedIn = true;
       } else {
-        console.log(res.message);
+        this.createToast(res.message);
         this.isLoggedIn = false;
       }
       }));
@@ -60,7 +59,7 @@ export class AuthService {
     return this.toastCtrl.create({
       message,
       duration: 3000
-    })
+    });
   }
 
   createCustomer(data: any) {
@@ -72,9 +71,9 @@ export class AuthService {
     const payload = this.cleanObject(data);
     const response = this.http.put(`${this.env.API_URL}/customers/${id}`, payload)
     .pipe(tap((res: ApiResponse) => {
-        console.log('auth.service: res =>', res);
+        // console.log('auth.service: res =>', res);
       if (res.success && res.payload) {
-        console.log(`Update successful`, res.payload);
+        // console.log(`Update successful`, res.payload);
         // this.bookingService.setBookingData({ customer: res.payload }).then(val => val);
       } else {
         console.log(res.message);
@@ -87,7 +86,7 @@ export class AuthService {
     this.isLoggedIn = false;
     this.bookingService.setBookingData({ customer: null }).then((val) => {
     }).catch((err) => {
-      console.log('Error retrieving user from storage', err)
+      // console.log('Error retrieving user from storage', err)
     });
     // this.navCtrl.popToRoot;
     // this.navCtrl.setRoot('page-auth');

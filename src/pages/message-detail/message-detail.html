@@ -15,13 +15,13 @@
 		<ion-row no-padding>
 			<ion-col>
 				<div class="message-header profile-bg" padding>
-					<h5 ion-text class="fw700 text-white">{{message.title}}</h5>
-					<p ion-text no-margin color="light">{{message.date | date: 'MM/dd/yyyy'}} ∙ by <strong>{{message.senderName}}</strong></p>
+					<h5 ion-text class="fw700 text-white">{{ message.subject }}</h5>
+					<p ion-text no-margin color="light">{{ message.created_at | date: 'MM/dd/yyyy' }} ∙ by <strong>{{ message.sender }}</strong></p>
 				</div>
 
 				<div padding-horizontal>
 					<p>
-						{{message.message}}
+						{{message.body}}
 					</p>
 				</div>
 			</ion-col>

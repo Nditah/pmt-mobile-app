@@ -4,36 +4,36 @@ import { PmtReservations, PmtBookings }  from "../../providers";
 import { PmtReservation } from "../../models";
 
 @IonicPage({
-  name: 'page-booking-list',
-  segment: 'booking-list'
+  name: 'page-reservation-list',
+  segment: 'reservation-list'
 })
 
 @Component({
-    selector: 'page-booking-list',
-    templateUrl: 'booking-list.html'
+    selector: 'page-reservation-list',
+    templateUrl: 'reservation-list.html'
 })
-export class BookingListPage implements OnInit {
+export class ReservationListPage implements OnInit {
 
   public reservations: Array<PmtReservation> = [];
   public bookings: Array<any> = [];
 
   constructor(public pmtBookings: PmtBookings, 
     public pmtReservations: PmtReservations) {
-      this.retrieveData();
+    //  this.retrieveData();
   }
 
   ionViewDidLoad() {
-    console.log('BookingListPage ionViewDidLoad');
+    console.log('ReservationListPage ionViewDidLoad');
   }
 
   ngOnInit(){ 
-    this.retrieveData();
+    this.retrieveData().then();
   }
 
-  retrieveData() {
-    const reservations = this.pmtReservations.query() || [];
-    if(reservations.length > 0){
-    this.reservations = reservations;
+  async retrieveData() {
+    const res = await this.pmtReservations.recordRetrieve();
+    if(res.payload.length > 0){
+    this.reservations = res.payload;
     }
     const bookings = this.pmtBookings.query() || [];
     if(bookings.length > 0){

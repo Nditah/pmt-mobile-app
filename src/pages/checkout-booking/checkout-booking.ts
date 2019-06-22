@@ -69,7 +69,7 @@ export class CheckoutBookingPage {
           bookingStage: 'page-home',
         };
         this.bookingService.setBookingData(bookingData).then(data => data);
-        this.navCtrl.setRoot('page-booking-list');
+        this.navCtrl.setRoot('page-reservation-list');
       }
       })
       .catch((err) => {
@@ -88,9 +88,9 @@ export class CheckoutBookingPage {
     let toast = this.toastCtrl.create({
       showCloseButton: true,
       cssClass: 'profile-bg',
-      message: 'Book Activity Success!',
+      message: 'Bus reservation was success!',
       duration: 3000,
-      position: 'bottom',
+      position: 'top',
     });
     loader.present();
     setTimeout(() => {
@@ -136,7 +136,7 @@ export class CheckoutBookingPage {
           {
               display_name: "Terminal From",
               variable_name: "terminalFrom",
-              value: this.bookingData.pmtRoute.terminalFrom,
+              value: this.bookingData.pmtRoute.terminal1_id,
           },
           {
             display_name: "PMT Route",

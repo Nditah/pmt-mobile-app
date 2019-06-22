@@ -24,10 +24,10 @@
   <ion-grid class="card" padding *ngIf="weather">
     <ion-row>
         <ion-col width-50 offset-25>
-            <h2 class="location text-dark">{{weather.display_location.full}}</h2>
+            <h2 class="location text-dark">{{ weather.display_location.full }}</h2>
             <div class="icon"><img src="{{weather.icon_url}}" alt="weather"></div>
-            <h3 class="desc">{{weather.weather}}</h3>
-            <h1 class="temp">{{weather.temp_c}}&deg;</h1>
+            <h3 class="desc">{{ weather.weather }}</h3>
+            <h1 class="temp">{{ weather.temp_c }}&deg;</h1>
         </ion-col>
     </ion-row>
     <ion-row>
@@ -35,19 +35,19 @@
             <ion-list>
 
                 <ion-item>
-                <strong>Temp:</strong> {{weather.temperature_string}}
+                <strong>Temp:</strong> {{ weather.temperature_string }}
                 </ion-item>
                  <ion-item>
-                    <strong>Relative Humidity:</strong> {{weather.relative_humidity}}
+                    <strong>Relative Humidity:</strong> {{ weather.relative_humidity }}
                 </ion-item>
                  <ion-item>
-                    <strong>Dewpoint:</strong> {{weather.dewpoint_string}}
+                    <strong>Dewpoint:</strong> {{ weather.dewpoint_string }}
                 </ion-item>
                  <ion-item>
-                    <strong>Visibility:</strong> {{weather.visibility_km}}
+                    <strong>Visibility:</strong> {{ weather.visibility_km }}
                 </ion-item>
                 <ion-item>
-                    <strong>Heat Index:</strong> {{weather.heat_index_string}}
+                    <strong>Heat Index:</strong> {{ weather.heat_index_string }}
                 </ion-item>
 
             </ion-list>

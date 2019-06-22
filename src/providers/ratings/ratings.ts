@@ -1,22 +1,34 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { _throw}  from 'rxjs/observable/throw';
-import { Rating, ApiResponse } from '../../models';
-import { ApiService, EnvService } from '../../services';
+import { Rating, ApiResponse, Customer } from '../../models';
+import { ApiService, EnvService, AuthService } from '../../services';
+import { hasProp } from '../../helpers';
 
 
 @Injectable()
 export class Ratings {
 
   ratings: Rating[] = [];
+  user: Customer;
 
-  constructor(private apiService: ApiService,
-        private env: EnvService) {
+  constructor(private env: EnvService,
+    private apiService: ApiService,
+    private authService: AuthService,
+    ) {
     const ratings = []; // Initial Values
     for (const rating of ratings) {
       this.ratings.push(new Rating(rating));
     }
-    // this.recordRetrieve();
+    this.authService.isAuthenticated().then((pmtBooking) => {
+      if (pmtBooking && hasProp(pmtBooking, 'customer')) {
+        this.user = new Customer(pmtBooking.customer);
+        if (hasProp(this.user, 'id')){
+          const queryString = `?customer_id=${this.user.id}&sort=-created_at`;
+          this.recordRetrieve(queryString).then().catch(err => console.log(err));                
+        }
+      }
+    }).catch(err => console.log(err));
   }
 
   query(params?: any) {

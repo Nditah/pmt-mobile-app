@@ -17,8 +17,10 @@ export class PmtRoute {
     trips: number;
     is_reservable: boolean;
     is_available: boolean;
-    created_by?: any;
-    updated_by?: any;
+    created_by?: Staff;
+    created_at?: Date;
+    updated_by?: Staff;
+    updated_at?: Date;
 
     constructor(fields: any) {
         // Quick and dirty extend/assign fields to this model
@@ -31,7 +33,6 @@ export class PmtRoute {
 }
 
 export interface PmtRoute {
-    [prop: string]: any;
     id: string;
     name: string;
     terminal1_id: Terminal;
@@ -47,9 +48,9 @@ export interface PmtRoute {
     trips: number;
     is_reservable: boolean;
     is_available: boolean;
-    created_by?: any;
+    created_by?: Staff;
     created_at?: Date;
-    updated_by?: any;
+    updated_by?: Staff;
     updated_at?: Date;
 }
 

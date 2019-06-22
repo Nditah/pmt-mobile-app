@@ -19,9 +19,9 @@ export class PmtBoarding {
   fare: number;
   destination?: string;
   boarding_status: string;
-  created_by?: any;
+  created_by?: Staff;
   created_at?: Date;
-  updated_by?: any;
+  updated_by?: Staff;
   updated_at?: Date;
 
   constructor(fields: any) {
@@ -49,9 +49,9 @@ export interface PmtBoarding {
   fare: number;
   destination?: string;
   boarding_status: string;
-  created_by?: any;
+  created_by?: Staff;
   created_at?: Date;
-  updated_by?: any;
+  updated_by?: Staff;
   updated_at?: Date;
 }
 

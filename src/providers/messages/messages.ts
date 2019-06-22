@@ -1,22 +1,35 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { _throw}  from 'rxjs/observable/throw';
-import { ApiResponse, Message } from '../../models';
-import { ApiService, EnvService } from '../../services';
+import { ApiResponse, Message, Customer } from '../../models';
+import { ApiService, EnvService, AuthService } from '../../services';
+// import sample from './table';
+import { hasProp } from '../../helpers';
 
 
 @Injectable()
 export class Messages {
 
   messages: Message[] = [];
+  user: Customer;
 
-  constructor(private apiService: ApiService,
-        private env: EnvService) {
-    const messages = []; // Initial Values
+  constructor(private env: EnvService,
+    private apiService: ApiService,
+    private authService: AuthService,
+    ) {
+    const messages = []; //  sample || [];
     for (const message of messages) {
       this.messages.push(new Message(message));
     }
-    // this.recordRetrieve();
+    this.authService.isAuthenticated().then((pmtBooking) => {
+      if (pmtBooking && hasProp(pmtBooking, 'customer')) {
+        this.user = new Customer(pmtBooking.customer);
+        if (hasProp(this.user, 'id')){
+            const queryString = `?customer_id=${this.user.id}&recipient=CUSTOMER&box=INBOX&sort=-created_at`;
+            this.recordRetrieve(queryString).then().catch(err => console.log(err));                
+        }
+      }
+    }).catch(err => console.log(err));
   }
 
   query(params?: any) {
@@ -47,19 +60,20 @@ export class Messages {
   }
 
   async recordRetrieve(queryString = ''): Promise<ApiResponse> {
-      const url = `${this.env.API_URL}/messages${queryString}`;
-      const proRes = this.apiService.getApi(url).pipe(
-          map((res: ApiResponse) => {
-              console.log(res);
-              if (res.success && res.payload.length > 0) {
-                  res.payload.forEach(element => {
-                      this.add(element);
-                  });
-              } else {
-                  _throw(res.message);
-              }
-              return res;
-          }));
+    const query = queryString || `?customer_id=${this.user.id}&recipient=CUSTOMER&box=INBOX&sort=-created_at`;
+    const url = `${this.env.API_URL}/messages${query}`;
+    const proRes = this.apiService.getApi(url).pipe(
+        map((res: ApiResponse) => {
+            console.log(res);
+            if (res.success && res.payload.length > 0) {
+                res.payload.forEach(element => {
+                    this.add(element);
+                });
+            } else {
+                _throw(res.message);
+            }
+            return res;
+        }));
       return await proRes.toPromise();
   }
 

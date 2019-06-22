@@ -41,6 +41,10 @@ export class Vehicle {
     approved_date?: string;
     remark?: string;
     is_dto?: boolean;
+    is_dto_settled?: boolean;
+    dto_initial_deposit?: number;
+    dto_maintenance_balance?: number;
+    dto_repayment_total?: number;
     is_healthy?: boolean;
     is_active?: boolean;
     created_by?: any;
@@ -96,6 +100,10 @@ export interface Vehicle {
     approved_date?: string;
     remark?: string;
     is_dto?: boolean;
+    is_dto_settled?: boolean;
+    dto_initial_deposit?: number;
+    dto_maintenance_balance?: number;
+    dto_repayment_total?: number;
     is_healthy?: boolean;
     is_active?: boolean;
     created_by?: any;

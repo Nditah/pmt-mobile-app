@@ -3,6 +3,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { IonicPage, NavController, AlertController, ToastController, MenuController } from "ionic-angular";
 import { AuthService, BookingService } from '../../services';
 import { LoginResponse, ApiResponse, PmtBooking } from "../../models";
+import { hasProp } from "../../helpers";
 
 
 @IonicPage({
@@ -52,14 +53,14 @@ export class AuthPage implements OnInit {
   }
 
   async initBooking() {
-    console.log('calling initBooking...');
+    // console.log('calling initBooking...');
     this.bookingData = await this.authService.isAuthenticated();
-    if (!!this.bookingData){
-      const page = this.bookingData.bookingStage || 'page-home';
-      console.log('navigating to ', page)
+    if (this.bookingData){
+      const page = hasProp(this.bookingData , 'bookingStage') ? this.bookingData.bookingStage : 'page-home';
+      this.createToast('navigating to ' + page);
       this.navCtrl.setRoot(page);
     } else {
-      console.log('..returns ', this.bookingData);
+      // console.log('..returns ', this.bookingData);
     }
     return;
   }
@@ -72,17 +73,17 @@ export class AuthPage implements OnInit {
   login() {
     const payload = this.onLoginForm.value;
     this.authService.postLogin(payload).then((res: any) => {
-      console.log('auth.service: res =>', res);
+      // console.log('auth.service: res =>', res);
     if (res.success) {
       this.initBooking().then();
-      this.createToast(`Login successful. Welcome! PMT Online`).present();
-      return 
+      this.createToast(`Login successful. Welcome! PMT Online`);
+      this.navCtrl.setRoot('page-home');
+      return;
     } else {
-      this.createToast(res.message).present();
+      this.createToast(res.message);
     }
     }).catch((error) => {
-        this.authService.createToast('Network failure or server unavailable').present();
-        console.log('Login error');
+        this.authService.createToast('Network failure or server unavailable');
         console.log(error.message);
       });
   }
@@ -91,28 +92,29 @@ export class AuthPage implements OnInit {
     // this.navCtrl.setRoot(RegisterPage);
     const payload = this.onRegisterForm.value;
     payload.customer_type = 'INDIVIDUAL';
-    console.log(payload);
     return this.authService.createCustomer(payload)
       .subscribe((data: ApiResponse) => {
-      console.log('Registration response', data);
+      // console.log('Registration response', data);
       if (data.success) {
         const { email, phone, password } = payload;
         return this.authService.postLogin({ email, phone, password })
           .then((response: LoginResponse) => {
-          console.log(response);
+          // console.log(response);
             if (!response.success) {
-              return this.authService.createToast(response['message']).present();
+              return this.authService.createToast(response['message']);
             }
             this.initBooking().then();
             return;
           }).catch((error) => {
             console.log(error.message);
-            return this.authService.createToast('Network failure or server unavailable').present();
+            return this.authService.createToast('Network failure or server unavailable');
           })
         }
-        this.authService.createToast(data.message).present();
+        this.authService.createToast(data.message);
       },
-      error => { console.log(error); },
+      error => { 
+        // console.log(error); 
+      },
       () => {}
     );
   }
@@ -158,10 +160,11 @@ export class AuthPage implements OnInit {
    * @param message
    */
   createToast(message: string) {
-    return this.toastCtrl.create({
+    const toast = this.toastCtrl.create({
       message,
       duration: 3000
-    })
+    });
+    toast.present();
   }
 
 }

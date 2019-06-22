@@ -3,7 +3,7 @@ import { map } from 'rxjs/operators';
 import { _throw}  from 'rxjs/observable/throw';
 import { ApiResponse, PmtSchedule } from '../../models';
 import { ApiService, EnvService } from '../../services';
-import result from './data';
+// import sample from './data';
 
 @Injectable()
 export class PmtSchedules {
@@ -14,7 +14,7 @@ export class PmtSchedules {
 
   constructor(private apiService: ApiService,
     private env: EnvService) {
-    const records: Array<any> = result || [];
+    const records: Array<any> = []; // sample 
     for (const item of records) {
       this.pmtSchedules.push(new PmtSchedule(item));
     }

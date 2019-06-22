@@ -1,4 +1,5 @@
 ﻿
+export * from './assignment';
 export * from './bank-register';
 export * from './customer';
 export * from './county';
@@ -18,6 +19,7 @@ export * from './pml-waybill';
 export * from './pmt-boarding';
 export * from './pmt-booking';
 export * from './pmt-reservation';
+export * from './pmt-maintenance';
 export * from './pmt-route';
 export * from './pmt-schedule';
 export * from './rating';
@@ -25,5 +27,8 @@ export * from './select-option';
 export * from './setting';
 export * from './staff';
 export * from './state';
+export * from './spare';
+export * from './spare-request';
+export * from './spare-log';
 export * from './terminal';
 export * from './vehicle';
