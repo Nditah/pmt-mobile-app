@@ -40,38 +40,54 @@ export class ScheduleDetailPage {
     console.log('ScheduleDetailPage ionViewDidLoad')
   }
 
-  seatColor(s): string {
-    return this.isSeatAvailable(s) ? 'green' : 'secondary';
+  seatColor(seatNo: number): string {
+    return this.isSeatAvailable(seatNo) ? 'green' : 'secondary';
   }
+  
 
-  selectSeat(seat) {
-    if (!this.isSeatAvailable(seat)){
+  /**
+   * @description Select avalibale seat or de-select seats
+   * @param seatNo seat to select or de-select from seatPosition array
+   */
+  selectSeat(seatNo: number) {
+    /*
+    console.log('Choosing seat ', seatNo);
+    console.log('Seat isSeatAvailable ', this.isSeatAvailable(seatNo));
+    console.log('Seat isSeatSelected ', this.isSeatSelected(seatNo));
+    */
+    if (!this.isSeatAvailable(seatNo)){
       return;
     }
-    const index = this.seatPositions.indexOf(seat);
+    const index = this.seatPositions.indexOf(seatNo);
     if (index >= 0) {
       this.seatPositions.splice(index, 1);
     } else {
-      this.seatPositions.push(seat);
+      this.seatPositions.push(seatNo);
     }
   }
 
-  getSeats(){
-    const N = this.schedule.vehicle_id.seating_capacity || 16; // seatCapacity
-    return Array.from({length: N}, (v, k) => k+1); 
+  /**
+   * @description Create an Array of vehicle seats
+   * @returns {Array} of seats
+   * @param {capacity} vehicle seating capacity | 16 for bus
+   */
+  getSeats(capacity = 16): Array<number>{
+    return Array.from({length: capacity}, (v, k) => k+1); 
   }
+
   seatsAvailable(schedule: PmtSchedule){
-    const totalSeats = schedule.vehicle_id ? schedule.vehicle_id.seating_capacity : 0;
+    const totalSeats = schedule.vehicle_id ? schedule.vehicle_id.seating_capacity : 16;
     const reservedSeats = schedule.pmt_reservation_ids ? schedule.pmt_reservation_ids.length : 0;
     return totalSeats - reservedSeats; // available
   }
+
   isSeatAvailable(seat: number): Boolean{
     const reservedSeats: Array<number> = this.schedule.pmt_reservation_ids || [];
-    return reservedSeats.some(x => x === seat);
+    return !(reservedSeats.some(x => x === seat)); // is it and elt of reservedSeats?
   }
 
   isSeatSelected(seat: number): Boolean{
-    return this.seatPositions.some(x => x === seat);
+    return this.seatPositions.some(x => x === seat); // is it and elt of seatPositions?
   }
 
   viewSummary(reservation) {

@@ -19,8 +19,8 @@
     "sign:app": "jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.jks  platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk my-alias",
     "zipalign:app": "cd ./platforms/android/app/build/outputs/apk/release && ~/Library/Android/sdk/build-tools/28.0.3/zipalign  -v 4 app-release-unsigned.apk PmtOnline.apk",
     "verify:app": "cd ./platforms/android/app/build/outputs/apk/release && ~/Library/Android/sdk/build-tools/28.0.3/apksigner verify  PmtOnline.apk",
-    "move:apk": "mv ./platforms/android/app/build/outputs/apk/release/PmtOnline.apk ~/Desktop",
-    "deploy:apk": "npm run ionic:build:android && npm run sign:app"
+    "deploy:apk": "npm run ionic:build:android && npm run sign:app",
+    "move:apk": "mv ./platforms/android/app/build/outputs/apk/release/PmtOnline.apk ~/Desktop"
   },
   "dependencies": {
     "@angular/animations": "5.2.11",

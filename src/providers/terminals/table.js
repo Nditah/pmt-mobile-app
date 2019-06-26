@@ -69,7 +69,7 @@ const bankAccountBaseId = DATABASE.BASE_ID.BANK_ACCOUNT;
 
 const result = table.map((record, index) => {
     const obj = Object.assign({}, record);
-    obj._id = toObjectId(terminalBaseId, 1 + index);
+    obj.id = toObjectId(terminalBaseId, 1 + index);
     if (record.flw_subaccount_id) {
         obj.flw_subaccount_id = toObjectId(bankAccountBaseId, record.flw_subaccount_id);
     } else {

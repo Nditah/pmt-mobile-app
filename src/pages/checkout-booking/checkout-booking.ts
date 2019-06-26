@@ -156,12 +156,12 @@ export class CheckoutBookingPage {
           {
             display_name: "Seat Positions",
             variable_name: "seat_positions",
-            value: this.bookingData.seatPositions,
+            value: this.bookingData.seatPositions.join(', '),
           },
           {
             display_name: "Seat Quantity",
             variable_name: "seat_quantity",
-            value: this.bookingData.seatPositions.length,
+            value: this.bookingData.seatPositions.length.toString(),
           },
           {
             display_name: "Mobile Number",

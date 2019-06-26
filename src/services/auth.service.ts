@@ -63,9 +63,19 @@ export class AuthService {
     toast.present();
   }
 
-  createCustomer(data: any) {
+
+  async createCustomer(data): Promise<ApiResponse> {
     const payload = this.cleanObject(data);
-    return this.http.post(this.env.API_URL + '/customers', payload);
+    const response = this.http.post(`${this.env.API_URL}/customers`, payload)
+    .pipe(tap((res: ApiResponse) => {
+        console.log('createCustomer =>', res);
+      if (res.success && res.payload) {
+        // console.log(`Update successful`, res.payload);
+      } else {
+        // console.log(res.message);
+      }
+      }));
+      return await response.toPromise();
   }
 
   async updateCustomer(data, id): Promise<LoginResponse> {

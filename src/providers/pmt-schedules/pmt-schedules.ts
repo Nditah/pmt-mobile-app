@@ -49,6 +49,7 @@ export class PmtSchedules {
 
   async recordRetrieve(queryString = ''): Promise<ApiResponse> {
     const url = `${this.env.API_URL}/pmt-schedules${queryString}`;
+    console.log('GET url ==>', url);
     const proRes = this.apiService.getApi(url).pipe(
         map((res: ApiResponse) => {
             console.log(res);

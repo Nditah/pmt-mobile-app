@@ -27,20 +27,24 @@ export class SearchLocationPage {
     public terminalService: Terminals) {
     this.way = this.navParams.data;
     this.terminals = terminalService.query();
+    bookingService.getBookingData().then((data) => {
+      if(!data){
+        return;
+      }
+      this.bookingData = data;
+    }).catch(err => console.log(err.message));
   }
 
   // search by item
   searchBy(terminal: Terminal) {
-    let bookingData: PmtBooking;
     if (this.way === 'from') {
       console.log('terminalFrom', terminal);
-      bookingData = { terminalFrom: terminal };
-    }
-    if (this.way === 'to') {
+      this.bookingData.terminalFrom = terminal;
+    } else { // * if (this.way === 'to')
       console.log('terminalTo', terminal);
-      bookingData = { terminalTo: terminal }
+      this.bookingData.terminalTo = terminal;
     }
-    this.bookingService.setBookingData(bookingData)
+    this.bookingService.setBookingData(this.bookingData)
     .then(data => data)
     .catch((err) => console.log('Error ', err.message));
     // this.nav.push(SearchCarsPage);

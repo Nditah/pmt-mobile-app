@@ -1,0 +1,138 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>
+            <span ion-text>Shipment Detail</span>
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+	<ion-grid no-padding fixed>
+		<ion-row no-padding>
+			<ion-col>
+				<div class="shipment-header profile-bg" padding>
+					<h3 ion-text class="text-white">Shipment {{ shipment.code }}</h3>
+				</div>
+
+				<div padding-horizontal>
+				<ion-grid>
+					<ion-row>
+						<ion-col ion-text color="light">Registered</ion-col><ion-col><strong>{{ shipment.created_at | date: 'MM/dd/yyyy' }} </strong></ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Shipment Name</ion-col><ion-col>{{ shipment.name }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Shipment Code</ion-col><ion-col>{{ shipment.code }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Sender</ion-col><ion-col>{{ shipment.sender_id ? getName(shipment.sender_id) : ""}} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Recipient</ion-col><ion-col>{{ shipment.recipient_id ? getName(shipment.recipient_id) : ""}} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Urgency</ion-col><ion-col>{{ shipment.urgency | number}} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Distance</ion-col><ion-col>{{ shipment.distance | number}} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Mass</ion-col><ion-col>{{ shipment.mass | number}} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Volume</ion-col><ion-col>{{ shipment.volume | number}} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Worth</ion-col><ion-col>{{ shipment.worth | number}} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Fragile</ion-col><ion-col>{{ shipment.is_fragile ? "YES" : "NO" }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Perishable</ion-col><ion-col>{{ shipment.is_perishable ? "YES" : "NO" }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Combustible</ion-col><ion-col>{{ shipment.is_combustible ? "YES" : "NO" }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Odiferous</ion-col><ion-col>{{ shipment.is_odiferous ? "YES" : "NO" }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Solid</ion-col><ion-col>{{ shipment.is_solid ? "YES" : "NO" }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Unique</ion-col><ion-col>{{ shipment.is_unique ? "YES" : "NO" }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Description</ion-col><ion-col>{{ shipment.description }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>From</ion-col><ion-col>{{ shipment.terminal_from?.address }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>To</ion-col><ion-col>{{ shipment.terminal_to?.address }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Station</ion-col><ion-col>{{ shipment.terminal_store?.address }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Travel hour(ETA)</ion-col><ion-col>{{ shipment.travel_hour | number }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Billing type</ion-col><ion-col>{{ shipment.billing_type }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Billing Charge</ion-col><ion-col>{{ shipment.cost_payable | number }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Payment method</ion-col><ion-col>{{ shipment.payment_method }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Payment gateway</ion-col><ion-col>{{ shipment.payment_gateway }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Payment status</ion-col><ion-col>{{ shipment.payment_status }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Delivery date</ion-col><ion-col>{{ shipment.delivery_date | date }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Delivery type</ion-col><ion-col>{{ shipment.delivery_type }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Delivery status</ion-col><ion-col>{{ shipment.delivery_status }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Identification</ion-col><ion-col>{{ shipment.identification }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Recipient confirm</ion-col><ion-col>{{ shipment.recipient_confirm ? "YES" : "NO" }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Recieved on</ion-col><ion-col>{{ shipment.recipient_confirm_date | date }} </ion-col>
+					</ion-row>
+					<ion-row>
+						<ion-col>Recipient remark</ion-col><ion-col>{{ shipment.recipient_confirm_remark }} </ion-col>
+					</ion-row>
+					<hr class="primary-hr" no-margin>
+					<ion-row *ngIf="shipment.pml_routing_ids">
+						<ion-col>Shipment Routing</ion-col><ion-col>{{ shipment.recipient_confirm_remark }} </ion-col>
+					</ion-row>
+					<!--
+					pml_routing_ids: Array<PmlRouting>;
+ 
+					created_by?: any;
+					created_at?: Date;
+					-->
+				</ion-grid>
+				</div>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+</ion-content>

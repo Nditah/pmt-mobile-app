@@ -90,8 +90,7 @@ export class AuthPage implements OnInit {
     // this.navCtrl.setRoot(RegisterPage);
     const payload = this.onRegisterForm.value;
     payload.customer_type = 'INDIVIDUAL';
-    return this.authService.createCustomer(payload)
-      .subscribe((data: ApiResponse) => {
+    return this.authService.createCustomer(payload).then((data: ApiResponse) => {
       // console.log('Registration response', data);
       if (data.success) {
         const { email, phone, password } = payload;
@@ -109,12 +108,9 @@ export class AuthPage implements OnInit {
           })
         }
         this.authService.createToast(data.message);
-      },
-      error => { 
-        // console.log(error); 
-      },
-      () => {}
-    );
+      }).catch(error => { 
+        this.authService.createToast(error.message);
+      });
   }
 
   

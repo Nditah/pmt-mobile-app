@@ -1,0 +1,76 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>
+            <span ion-text>Shipment List</span>
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="common-bg">
+  <ion-grid no-padding fixed>
+    <ion-row>
+      <ion-col col-12 margin-bottom>
+
+        <ion-card *ngIf="shipments.length==0" class="primary-bg" margin-top>
+          <ion-card-content tappable (click)="searchShipment()">
+          	<p text-center class="text-white">You have no shipments yet.</p>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Shipments Books -->
+        <div *ngIf="shipments.length">
+          <ion-item-divider color="dark" class="bold">Shipment List</ion-item-divider>
+
+          <ion-card *ngFor="let shipment of shipments" tappable (click)="gotToDetail(shipment)">
+            <ion-card-header text-center class="primary-bg">
+              <h3 ion-text class="text-white">
+                Shipment ID: <strong>{{ shipment.code }}</strong> - {{ shipment.created_at | date }}
+              </h3>
+            </ion-card-header>
+            <ion-card-content no-padding>
+              <ion-item class="itemm">
+                <h2 ion-text color="dark">
+                  <strong>{{ shipment.name }}</strong>
+                </h2>
+                <h3 ion-text text-wrap>{{ shipment.recipient_title }} {{ shipment.recipient_name}} </h3>
+                <p ion-text text-wrap>
+                  {{ shipment.terminal_from.address }} => {{ shipment.terminal_to.address }}
+                </p>
+                <div item-end>
+                  <ion-badge class="light-bg">
+                      <h6 class="bold">N{{ shipment.cost_payable | number }}</h6>
+                  </ion-badge>
+                </div>
+              </ion-item>
+            </ion-card-content>
+            <hr class="primary-hr" no-margin>
+            <ion-card-content class="green-bg" text-center>
+                <h3 class="text-white">Status: {{ shipment.delivery_status }}</h3>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-list>
+              <ion-item-sliding *ngFor="let shipment of shipments">
+                <button ion-item (click)="gotToDetail(shipment)" [ngClass]="{'light-bg': !shipment.read}">
+                  <h2 [ngClass]="{'fw700 text-white': shipment.delivery_status !== 'DELIVERED'}">
+                    <ion-icon name="mail" color="dark" *ngIf="shipment.delivery_status !== 'DELIVERED'"></ion-icon>
+                    <ion-icon name="mail-open" color="primary" *ngIf="shipment.delivery_status === 'DELIVERED'"></ion-icon>
+                    {{ shipment.name }} {{ shipment.code }}
+                  </h2>
+                  <p ion-text color="dark">{{ shipment.recipient_name }} ∙ {{ shipment.created_at | date: 'MM/dd/yyyy' }}</p>
+                  <p ion-text>{{ shipment.terminal_from.name }} => {{ shipment.terminal_to.name }}</p>
+                </button>
+                <ion-item-options>
+                  <button ion-button color="danger" (click)="deleteItem(shipment)">Delete</button>
+                </ion-item-options>
+              </ion-item-sliding>
+            </ion-list>
+            
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

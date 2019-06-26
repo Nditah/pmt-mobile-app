@@ -63,15 +63,15 @@
             <ion-row>
               <ion-col col-3></ion-col>
               <ion-col col-3></ion-col>
-              <ion-col col-3 *ngFor="let s of getSeats()">
-                <ion-item class="border-bottom" text-wrap tappable (click)="selectSeat(s)">
+              <ion-col col-3 *ngFor="let seatNo of getSeats(schedule.vehicle_id?.seating_capacity)">
+                <ion-item class="border-bottom" text-wrap tappable (click)="selectSeat(seatNo)">
                   <ion-avatar align-items-center>
-                    <div *ngIf="isSeatSelected(s)"><img class="seat-img" [src]="selectedSeat"></div>
-                    <div *ngIf="isSeatAvailable(s) && !isSeatSelected(s)"><img class="seat-img" [src]="emptySeat"></div>
-                    <div *ngIf="!isSeatAvailable(s)"><img class="seat-img" [src]="occupiedSeat"></div>
-                    <span ion-text *ngIf="!isSeatSelected(s)" class="seat-num" [color]="seatColor(s)">{{s}}</span>
-                    <div *ngIf="isSeatSelected(s)">
-                      <ion-icon name="checkmark-circle" [color]="seatColor(s)" class="seat-num"></ion-icon>
+                    <div *ngIf="isSeatAvailable(seatNo) && isSeatSelected(seatNo)"><img class="seat-img" [src]="selectedSeat"></div>
+                    <div *ngIf="isSeatAvailable(seatNo) && !isSeatSelected(seatNo)"><img class="seat-img" [src]="emptySeat"></div>
+                    <div *ngIf="!isSeatAvailable(seatNo)"><img class="seat-img" [src]="occupiedSeat"></div>
+                    <span ion-text *ngIf="!isSeatSelected(seatNo)" class="seat-num" [color]="seatColor(seatNo)">{{ seatNo }}</span>
+                    <div *ngIf="isSeatSelected(seatNo)">
+                      <ion-icon name="checkmark-circle" [color]="seatColor(seatNo)" class="seat-num"></ion-icon>
                     </div>
                   </ion-avatar>
 <!--                  <ion-label>-->
