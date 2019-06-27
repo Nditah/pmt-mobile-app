@@ -48,7 +48,7 @@ export class AuthService {
         this.bookingService.setBookingData({ customer: user, token }).then(val => val);
         this.isLoggedIn = true;
       } else {
-        this.createToast(res.message);
+        // this.createToast(res.message);
         this.isLoggedIn = false;
       }
       }));

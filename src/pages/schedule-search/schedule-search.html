@@ -52,7 +52,9 @@
       
           <ion-row>
             <ion-col col-12 no-padding>
-              <button ion-button block color="secondary" full large no-margin tappable (click)="search()">
+              <button ion-button block color="secondary" 
+              [disabled]="!(bookingData?.boardingDate && bookingData?.terminalFrom?.id && bookingData?.terminalTo?.id)"
+              full large no-margin tappable (click)="search()">
                 <ion-icon name="bus"></ion-icon>Search
               </button>
             </ion-col>
@@ -78,9 +80,9 @@
   
               <ion-col col-12 no-padding>
                 <ion-card no-margin>
-                  <img src="assets/img/bg1.jpg" />
-                  <div class="card-title">30% OFF</div>
-                  <div class="card-subtitle">Cheap Destinations</div>
+                  <img src="assets/img/pet2.jpeg" />
+                  <div class="card-title">10% OFF</div>
+                  <div class="card-subtitle">Quality Peace Petroleum</div>
                 </ion-card>
               </ion-col>
   

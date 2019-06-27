@@ -18,7 +18,7 @@ export class CheckoutBookingPage {
   public reservation: PmtReservation;
   public bookingData: PmtBooking;
   public vehicleLogo: string = '/assets/img/bus-logo.jpg';
-  public bgImage: string = '/assets/img/background-1.jpg';
+  public bgImage: string = '/assets/img/bg1.jpg';
   
   public metadata: any = {};
   public trxref = '' + Math.floor((Math.random() * 1000000000) + 1);
@@ -56,8 +56,8 @@ export class CheckoutBookingPage {
     this.showSuccess(); 
     if($event.status && $event.status === "success") {
       this.reservation = this.getReservation();
-      this.pmtReservations.recordCreate(this.reservation)
-      .then((data) => {
+      this.pmtReservations.recordCreate(this.reservation).then((data) => {
+        console.log('pmtReservations.recordCreate ==>', data);
         if(data.success) {
         const bookingData: PmtBooking = { 
           pmtRoute: null,
@@ -88,8 +88,8 @@ export class CheckoutBookingPage {
     let toast = this.toastCtrl.create({
       showCloseButton: true,
       cssClass: 'profile-bg',
-      message: 'Bus reservation was success!',
-      duration: 3000,
+      message: 'PMT Bus reservation was successful!',
+      duration: 4000,
       position: 'top',
     });
     loader.present();
@@ -109,7 +109,7 @@ export class CheckoutBookingPage {
     let toast = this.toastCtrl.create({
       showCloseButton: true,
       cssClass: 'profile-bg',
-      message: 'Book was not success!',
+      message: 'PMT Booking was not successful!',
       duration: 3000,
       position: 'bottom',
     });

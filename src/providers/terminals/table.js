@@ -2,7 +2,7 @@ import { toObjectId, DATABASE } from "../../helpers";
 
 
 const table = [
-    { flw_subaccount_id: "", name: "Enugu, Emene", quarter: "Emene", county_id: 247, city_id: 11, state_id: 14, address: "No. 8-12 Peace Factory Road, Emene Industrial Layout, Enugu", longitude: 6.4628320, latitude: 7.5528820, capacity: 10000, is_pmt_operational: false, is_pml_operational: false, is_pmt_online: false },
+//    { flw_subaccount_id: "", name: "Enugu, Emene", quarter: "Emene", county_id: 247, city_id: 11, state_id: 14, address: "No. 8-12 Peace Factory Road, Emene Industrial Layout, Enugu", longitude: 6.4628320, latitude: 7.5528820, capacity: 10000, is_pmt_operational: false, is_pml_operational: false, is_pmt_online: false },
     { flw_subaccount_id: "297", name: "Aba", quarter: "Asa Road", manager: "Aba Manager", phone: "08055091828", county_id: 1, city_id: 1, state_id: 1, address: "No 13-14 Asa Road, Aba, Abia State", longitude: 7.3655000, latitude: 5.1050000, capacity: 1, is_pmt_operational: true, is_pml_operational: true, is_pmt_online: true },
     { flw_subaccount_id: "299", name: "Umuahia", quarter: "Crowther Street", manager: "Umuahia Manager", phone: "08055091821", county_id: 0, city_id: 31, state_id: 1, address: "No 2 Crowther Street, Umuahia, Abia State", longitude: 7.4941000, latitude: 5.5320000, capacity: 1, is_pmt_operational: true, is_pml_operational: true, is_pmt_online: false },
     { flw_subaccount_id: "330", name: "Uyo", quarter: "Long Distance Park", county_id: 0, city_id: 32, state_id: 3, address: "Peace Mass Transit Ltd, Terminal 6, Long Distance Park, Itam, Itu Lga , Uyo, Akwa Ibom", longitude: 7.9128000, latitude: 5.0377000, capacity: 1, is_pmt_operational: true, is_pml_operational: true, is_pmt_online: true },
@@ -71,8 +71,8 @@ const result = table.map((record, index) => {
     const obj = Object.assign({}, record);
     obj.id = toObjectId(terminalBaseId, 1 + index);
     if (record.flw_subaccount_id) {
-        obj.flw_subaccount_id = toObjectId(bankAccountBaseId, record.flw_subaccount_id);
-    } else {
+    //    obj.flw_subaccount_id = toObjectId(bankAccountBaseId, record.flw_subaccount_id);
+    // } else {
         delete obj.flw_subaccount_id;
     }
     obj.county_id = toObjectId(countyBaseId, record.county_id);

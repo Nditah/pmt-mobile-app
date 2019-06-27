@@ -12,7 +12,7 @@ export class Terminals {
 
   constructor(private apiService: ApiService,
     private env: EnvService) {
-    const records: Array<Terminal> = TerminalData;
+    const records: Array<Terminal> = this.sortTerminal(TerminalData);
     for (const item of records) {
       this.terminals.push(new Terminal(item));
     }
@@ -61,9 +61,7 @@ export class Terminals {
         map((res: ApiResponse) => {
             console.log(res);
             if (res.success && res.payload.length > 0) {
-                res.payload.forEach(element => {
-                    this.add(element);
-                });
+                this.terminals = res.payload;
             } else {
                 _throw(res.message);
             }

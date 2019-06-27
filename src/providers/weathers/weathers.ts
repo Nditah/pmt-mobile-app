@@ -1,27 +1,24 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map, catchError } from 'rxjs/operators';
-// import { api } from './config';
-
+import { _throw}  from 'rxjs/observable/throw';
+// https://openweathermap.org/current
 
 @Injectable()
 export class Weathers {
   
-  apiKey = '1e4a0bdb251c64e4';
-  url: string;
-  queryNotFound: string;
+  apiKey = 'e991e1db6b5fdbc1115d0be452700281';
+  url = 'http://api.openweathermap.org/data/2.5/weather';
+  // 'http://api.openweathermap.org/data/2.5/forecast';
 
   constructor(public http: HttpClient) {
     console.log('Hello WeatherProvider Provider');
-    this.url = `http://api.wunderground.com/api/${this.apiKey}/conditions/q/`;
   }
 
-  getWeather(state, city): Observable<any> {
-    return this.http.get(this.url + state + '/' + city + '.json').pipe(
-      map(this.extractData),
-      catchError(this.handleError)
-    );
+  getWeather(city='Enugu', country = 'ng'): Observable<any> {
+    return this.http.get(`${this.url}?q=${city},${country}&APPID=${this.apiKey}&units=metric`)
+    .pipe(map(this.extractData));
   }
 
   // Private
@@ -30,16 +27,26 @@ export class Weathers {
     return body || {};
   }
 
-  private handleError (error: Response | any) {
+  private handleError2(error: Response | any) {
     let errMsg: string;
-    if (error instanceof Response) {
-      const err = error || '';
+    if (error.error instanceof Response) {
+      const err = error.error|| '';
       errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
     } else {
-      errMsg = error.message ? error.message : error.toString();
+      errMsg = error.error.message ? error.error.message : error.error.toString();
     }
     console.error(errMsg);
-    return Observable.throw(errMsg);
+    return _throw(errMsg);
   }
 
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      console.error('An error occurred:', error.error.message);
+    } else {
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
+    }
+    return _throw(error.error);
+  }
 }

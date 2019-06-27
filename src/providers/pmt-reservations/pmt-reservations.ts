@@ -58,15 +58,13 @@ export class PmtReservations {
     this.pmtReservations.splice(this.pmtReservations.indexOf(record), 1);
   }
 
-  async recordRetrieve(queryString = ''): Promise<ApiResponse> {
-    const url = `${this.env.API_URL}/pmt-reservations${queryString}`;
+  async recordRetrieve(queryStr = `?customer_id=${this.user.id}&sort=-created_at`): Promise<ApiResponse> {
+    const url = `${this.env.API_URL}/pmt-reservations${queryStr}`;
     const proRes = this.apiService.getApi(url).pipe(
         map((res: ApiResponse) => {
             console.log(res);
             if (res.success && res.payload.length > 0) {
-                res.payload.forEach(element => {
-                    this.add(element);
-                });
+              this.pmtReservations = res.payload;
             } else {
                 _throw(res.message);
             }
@@ -78,9 +76,10 @@ export class PmtReservations {
   async recordCreate(record: PmtReservation): Promise<ApiResponse> {
       const url = `${this.env.API_URL}/pmt-reservations`;
       const proRes = this.apiService.postApi(url, record).pipe(
-          map((res: ApiResponse) => {
+          map(async(res: ApiResponse) => {
               if (res.success && res.payload) {
-                  console.log('recordCreate() successful');
+                await this.recordRetrieve();
+                  console.log('recordCreate()', res);
               } else {
                   _throw(res.message);
               }

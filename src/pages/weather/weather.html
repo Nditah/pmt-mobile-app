@@ -13,7 +13,7 @@
 
       <ion-item>
         <ion-label class="text-1x bold">Select Local</ion-label>
-        <ion-select [(ngModel)]="location" (ionChange)="getWeather(location)">
+        <ion-select [(ngModel)]="wLocation" (ionChange)="getWeather(wLocation)">
           <ion-option *ngFor="let location of locationList" [value]="location">{{ location.city }}</ion-option>
         </ion-select>
       </ion-item>
@@ -21,13 +21,13 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-grid class="card" padding *ngIf="weather">
+  <ion-grid class="card" padding *ngIf="record">
     <ion-row>
         <ion-col width-50 offset-25>
-            <h2 class="location text-dark">{{ weather.display_location.full }}</h2>
-            <div class="icon"><img src="{{weather.icon_url}}" alt="weather"></div>
-            <h3 class="desc">{{ weather.weather }}</h3>
-            <h1 class="temp">{{ weather.temp_c }}&deg;</h1>
+            <h2 class="location text-dark">{{ record.name }}</h2>
+            <div class="icon"><img src="{{ getIcon(record.weather.icon) }}" alt="weather"></div>
+            <h3 class="desc">{{ record.weather.main }}: {{ record.weather.description }}</h3>
+            <h1 class="temp">{{ record.main?.temp }}&deg;</h1>
         </ion-col>
     </ion-row>
     <ion-row>
@@ -35,19 +35,28 @@
             <ion-list>
 
                 <ion-item>
-                <strong>Temp:</strong> {{ weather.temperature_string }}
-                </ion-item>
-                 <ion-item>
-                    <strong>Relative Humidity:</strong> {{ weather.relative_humidity }}
-                </ion-item>
-                 <ion-item>
-                    <strong>Dewpoint:</strong> {{ weather.dewpoint_string }}
-                </ion-item>
-                 <ion-item>
-                    <strong>Visibility:</strong> {{ weather.visibility_km }}
+                  <strong>Coord:</strong> Long: {{ record.coord?.lon }} Lat:{{ record.coord?.lat }}
                 </ion-item>
                 <ion-item>
-                    <strong>Heat Index:</strong> {{ weather.heat_index_string }}
+                  <strong>Temp:</strong> {{ record.main?.temp }}&deg;
+                </ion-item>
+                 <ion-item>
+                    <strong>Humidity:</strong> {{ record.main?.humidity }}%
+                </ion-item>
+                 <ion-item>
+                    <strong>Pressure:</strong> {{ record.main?.pressure }}hPa
+                </ion-item>
+                 <ion-item>
+                    <strong>Visibility:</strong> 
+                </ion-item>
+                <ion-item>
+                    <strong>Wind:</strong> {{ record.wind?.speed }}m/s {{ record.wind?.deg }}deg
+                </ion-item>
+                <ion-item>
+                    <strong>Rain 3hr:</strong> {{ record.rain['3h'] ? record.rain['3h'] : '' }}mm
+                </ion-item>
+                <ion-item>
+                    <strong>Cloudiness:</strong> {{ record.clouds?.all }}%
                 </ion-item>
 
             </ion-list>

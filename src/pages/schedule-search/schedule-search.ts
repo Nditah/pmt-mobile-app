@@ -79,6 +79,12 @@ export class ScheduleSearchPage {
   }
 
   search() {
+    if (!(this.bookingData.boardingDate &&
+      this.bookingData.terminalFrom &&
+      this.bookingData.terminalTo)) {
+        this.authService.createToast('Please choose your terminals and date');
+        return;
+      }
     if (this.bookingData.terminalFrom.id !== this.bookingData.terminalTo.id) {
         let payload = `boarding_date=${this.bookingData.boardingDate}`;
         payload += `&terminal1_id=${this.bookingData.terminalFrom.id}`;

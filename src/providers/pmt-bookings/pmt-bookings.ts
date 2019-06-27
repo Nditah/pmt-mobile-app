@@ -52,9 +52,7 @@ export class PmtBookings {
           map((res: ApiResponse) => {
               console.log(res);
               if (res.success && res.payload.length > 0) {
-                  res.payload.forEach(element => {
-                      this.add(element);
-                  });
+                  this.pmtBookings = res.payload;
               } else {
                   _throw(res.message);
               }

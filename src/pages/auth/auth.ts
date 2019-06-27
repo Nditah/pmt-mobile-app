@@ -35,8 +35,7 @@ export class AuthPage implements OnInit {
 
   ngOnInit() {
     this.onLoginForm = this.formBuilder.group({
-      phone: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(11), Validators.maxLength(14)])],
-      email: ['', Validators.compose([ Validators.required ])],
+      username: ['', Validators.compose([Validators.required, Validators.minLength(11), Validators.maxLength(100)])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(4)])]
     });
 
@@ -69,20 +68,22 @@ export class AuthPage implements OnInit {
   }
 
   login() {
-    const payload = this.onLoginForm.value;
-    this.authService.postLogin(payload).then((res: any) => {
-      // console.log('auth.service: res =>', res);
-    if (res.success) {
-      this.initBooking().then();
-      this.createToast(`Login successful. Welcome! PMT Online`);
-      this.navCtrl.setRoot('page-home');
-      return;
+    const { username, password } = this.onLoginForm.value;
+    const payload = { email: username, phone: username, password };
+    if (this.validateEmail(username)){
+      delete payload.phone;
     } else {
-      this.createToast(res.message);
+      delete payload.email;
     }
+    this.authService.postLogin(payload).then((res: any) => {
+      if (res.success) {
+        this.initBooking().then();
+        this.authService.createToast(`Login successful. Welcome! PMT Online`);
+        this.navCtrl.setRoot('page-home');
+        return;
+      }
     }).catch((error) => {
-        this.authService.createToast('Network failure or server unavailable');
-        console.log(error.message);
+        this.authService.createToast(error.message);
       });
   }
 
@@ -96,15 +97,14 @@ export class AuthPage implements OnInit {
         const { email, phone, password } = payload;
         return this.authService.postLogin({ email, phone, password })
           .then((response: LoginResponse) => {
-          // console.log(response);
+          console.log("Response => ", response);
             if (!response.success) {
-              return this.authService.createToast(response['message']);
+              return this.authService.createToast(response.message);
             }
-            this.initBooking().then();
-            return;
+            // this.initBooking().then();
           }).catch((error) => {
-            console.log(error.message);
-            return this.authService.createToast('Network failure or server unavailable');
+            const msg = error.message || 'Network failure or server unavailable';
+            return this.authService.createToast(msg);
           })
         }
         this.authService.createToast(data.message);

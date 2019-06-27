@@ -75,14 +75,31 @@ export class ScheduleDetailPage {
     return Array.from({length: capacity}, (v, k) => k+1); 
   }
 
-  seatsAvailable(schedule: PmtSchedule){
-    const totalSeats = schedule.vehicle_id ? schedule.vehicle_id.seating_capacity : 16;
-    const reservedSeats = schedule.pmt_reservation_ids ? schedule.pmt_reservation_ids.length : 0;
-    return totalSeats - reservedSeats; // available
+  seatsAvailable(schedule: PmtSchedule): number {
+    try {
+      const totalSeats = schedule.vehicle_id ? schedule.vehicle_id.seating_capacity : 0;
+      return totalSeats - this.reservedSeats(schedule).length;
+    } catch(e) {
+      console.log(e.message);
+    }
+  }
+
+  reservedSeats(schedule: PmtSchedule): Array<number> {
+    try {
+      const reserveArray = schedule.pmt_reservation_ids ? schedule.pmt_reservation_ids : [];
+
+      let seatPositions = [];
+      reserveArray.forEach(reserve => {
+        seatPositions = seatPositions.concat(reserve.seat_positions);
+      });
+      return seatPositions;
+    } catch(e) {
+      console.log(e.message);
+    }
   }
 
   isSeatAvailable(seat: number): Boolean{
-    const reservedSeats: Array<number> = this.schedule.pmt_reservation_ids || [];
+    const reservedSeats: Array<number> = this.reservedSeats(this.schedule) || [];
     return !(reservedSeats.some(x => x === seat)); // is it and elt of reservedSeats?
   }
 
