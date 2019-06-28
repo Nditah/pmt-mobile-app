@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { _throw}  from 'rxjs/observable/throw';
 import { map } from 'rxjs/operators';
+import { Storage } from '@ionic/storage';
 import { PmlShipment, ApiResponse, Customer } from '../../models';
 import { ApiService, EnvService, AuthService } from '../../services';
 // import sample from './table';
@@ -13,10 +14,10 @@ export class PmlShipments {
     pmlShipments: Array<PmlShipment> = [];
     user: Customer;
 
-    constructor(private env: EnvService,
-        private apiService: ApiService,
-        private authService: AuthService,
-        ) {
+    constructor(public storage: Storage,
+      private env: EnvService,
+      private apiService: ApiService,
+      private authService: AuthService) {
             const pmlShipments = []; //Initial Values
             for (const pmlShipment of pmlShipments) {
                 this.pmlShipments.push(new PmlShipment(pmlShipment));
@@ -25,7 +26,16 @@ export class PmlShipments {
                 if (user && hasProp(user, 'id')){
                   this.user = new Customer(user);
                   const queryString = `?filter={"$or":[{"sender_id":"${this.user.id}"},{"recipient_id":"${this.user.id}"}]}`;
-                  this.recordRetrieve(queryString).then().catch(err => console.log(err));                
+                  this.recordRetrieve(queryString).then(data => {
+              if(data.success){
+                this.pmlShipments = data.payload.length > 0 ? data.payload : [];
+                this.storage.set('pmlShipments', JSON.stringify(this.pmlShipments)).then(data => data);
+              } else {
+                this.storage.get('pmlShipments').then(data => {
+                  this.pmlShipments = data ? JSON.parse(data) : [];
+                });
+              }
+            }).catch(err => console.log(err));                
                 }
             }).catch(err => console.log(err));
     }

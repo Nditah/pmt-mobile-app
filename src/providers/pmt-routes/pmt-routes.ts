@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { _throw}  from 'rxjs/observable/throw';
+import { Storage } from '@ionic/storage';
 import { ApiResponse, PmtRoute } from '../../models';
 import { ApiService, EnvService } from '../../services';
 
@@ -10,8 +11,9 @@ export class PmtRoutes {
 
   pmtRoutes: PmtRoute[] = [];
 
-  constructor(private apiService: ApiService,
-        private env: EnvService) {
+  constructor(public storage: Storage,
+    private env: EnvService,
+    private apiService: ApiService) {
     const pmtRoutes = []; // Initial Values
     for (const pmtRoute of pmtRoutes) {
       this.pmtRoutes.push(new PmtRoute(pmtRoute));

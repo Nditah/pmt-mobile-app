@@ -1,7 +1,8 @@
 <!-- # -->
 <ion-header>
   <ion-navbar color="primary">
-    <ion-input placeholder="Enter Destination" padding-left autofocus></ion-input>
+      <ion-searchbar padding animated autocomplete="on" shape="round" (ionInput)="filterRecord($event)" placeholder="Enter Destination" autofocus></ion-searchbar>
+   <!-- <ion-input (ionInput)="filterRecord($event)"  placeholder="Enter Destination" padding-left autofocus></ion-input> -->
   </ion-navbar>
 </ion-header>
 

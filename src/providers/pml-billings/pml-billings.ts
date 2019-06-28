@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { _throw}  from 'rxjs/observable/throw';
 import { map } from 'rxjs/operators';
+import { Storage } from '@ionic/storage';
 import { PmlBilling, ApiResponse } from '../../models';
 import { ApiService, EnvService } from '../../services';
 
@@ -10,8 +11,9 @@ export class PmlBillings {
 
   pmlBillings: PmlBilling[] = [];
 
-  constructor(private apiService: ApiService,
-        private env: EnvService) {
+  constructor(public storage: Storage,
+    private env: EnvService,
+    private apiService: ApiService) {
     const pmlBillings = []; // Initial Values
     for (const pmlBilling of pmlBillings) {
       this.pmlBillings.push(new PmlBilling(pmlBilling));

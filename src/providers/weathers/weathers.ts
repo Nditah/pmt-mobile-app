@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map, catchError } from 'rxjs/operators';
 import { _throw}  from 'rxjs/observable/throw';
+import { Storage } from '@ionic/storage';
 // https://openweathermap.org/current
 
 @Injectable()
@@ -12,7 +13,8 @@ export class Weathers {
   url = 'http://api.openweathermap.org/data/2.5/weather';
   // 'http://api.openweathermap.org/data/2.5/forecast';
 
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient, 
+    public storage: Storage) {
     console.log('Hello WeatherProvider Provider');
   }
 

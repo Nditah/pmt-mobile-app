@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { _throw}  from 'rxjs/observable/throw';
+import { Storage } from '@ionic/storage';
 import { Setting, ApiResponse } from '../../models';
 import { ApiService, EnvService } from '../../services';
 
@@ -10,8 +11,9 @@ export class Settings {
 
   settings: Setting[] = [];
 
-  constructor(private apiService: ApiService,
-        private env: EnvService) {
+  constructor(public storage: Storage,
+        private env: EnvService,
+        private apiService: ApiService) {
     const settings = []; // Initial Values
     for (const setting of settings) {
       this.settings.push(new Setting(setting));

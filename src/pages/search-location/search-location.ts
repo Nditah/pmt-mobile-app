@@ -26,13 +26,25 @@ export class SearchLocationPage {
     public navParams: NavParams,
     public terminalService: Terminals) {
     this.way = this.navParams.data;
-    this.terminals = terminalService.query();
+    const terminals = terminalService.query();
+    this.terminals = terminals.filter(t => t.is_pmt_online === true);
     bookingService.getBookingData().then((data) => {
       if(!data){
         return;
       }
       this.bookingData = data;
     }).catch(err => console.log(err.message));
+  }
+
+  filterRecord(ev) {
+    const val = ev.target.value;
+    if (!val || !val.trim()) {
+      this.terminals = this.terminalService.query();
+      return;
+    }
+    this.terminals = this.terminalService.query({
+      name: val
+    });
   }
 
   // search by item

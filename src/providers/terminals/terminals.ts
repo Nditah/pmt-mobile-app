@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { _throw}  from 'rxjs/observable/throw';
+import { Storage } from '@ionic/storage';
 import { ApiResponse, Terminal } from '../../models';
 import { ApiService, EnvService } from '../../services';
 import TerminalData from './table';
@@ -10,14 +11,29 @@ export class Terminals {
 
   terminals: Array<any> = [];
 
-  constructor(private apiService: ApiService,
-    private env: EnvService) {
+  constructor(public storage: Storage,
+    private env: EnvService,
+    private apiService: ApiService) {
     const records: Array<Terminal> = this.sortTerminal(TerminalData);
     for (const item of records) {
       this.terminals.push(new Terminal(item));
     }
-
-    // this.getTerminals();
+      const queryString = `?sort=name`;
+      this.recordRetrieve(queryString).then(data => {
+        if(data.success){
+          if(data.payload.length > 0) {
+            this.terminals = data.payload;
+            this.storage.set('terminals', JSON.stringify(this.terminals)).then(data => data);
+          }
+        } else {
+          this.storage.get('terminals').then(data => {
+            if(data && JSON.parse(data).length > 0 ) {
+              this.terminals = JSON.parse(data);
+            }
+            
+          });
+        }
+      }).catch(err => console.log(err));  
   }
 
   query(params?: any) {
