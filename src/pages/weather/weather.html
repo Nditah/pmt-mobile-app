@@ -7,14 +7,14 @@
     </ion-navbar>
 </ion-header>
 
-<ion-content padding class="common-bg">
+<ion-content padding class="lightest-bg">
   <ion-card class="full-width" no-margin margin-bottom>
     <ion-card-content no-padding>
 
       <ion-item>
         <ion-label class="text-1x bold">Select Local</ion-label>
         <ion-select [(ngModel)]="selectedCity" (ionChange)="getWeather(selectedCity)">
-          <ion-option *ngFor="let city of cities" [value]="location">{{ city.name }} ∙ {{ city.country_iso2 | uppercase }}</ion-option>
+          <ion-option *ngFor="let city of cities" [value]="city">{{ city.name }} ∙ {{ city.country_iso2 | uppercase }}</ion-option>
         </ion-select>
       </ion-item>
 
@@ -23,29 +23,30 @@
 
   <ion-grid class="card" padding *ngIf="city">
     <ion-row>
-        <ion-col width-50 offset-25>
-            <h2>{{ city.name }} ∙ {{ city.country_iso2 | uppercase }}</h2>
+        <ion-col>
+            <h3>{{ city.name }} ∙ {{ city.country_iso2 | uppercase }}
+              <img item-left src="{{ getIcon(cityWeather?.weather[0]?.icon) }}" alt="weather">
+            </h3>
             <ion-list *ngIf="city?.terminal_ids?.length > 0">
-                <ion-item-sliding *ngFor="let terminal of terminal_ids">
-                  <ion-item class="itemm" text-wrap>
-                    <p><strong>{{ terminal.name }}</strong></p>
-                    <h3><a href="tel:{{ terminal.phone }}" color="energy" medium>{{ terminal.phone }}</a></h3>
-                    <p>{{ terminal.manager }}</p>
-                    <p>{{ terminal.address }}</p>
-                  </ion-item>
-                </ion-item-sliding>
-              </ion-list>
+              <ion-item-sliding *ngFor="let terminal of terminal_ids">
+                <ion-item class="itemm" text-wrap>
+                  <p><strong>{{ terminal.name }}</strong></p>
+                  <h3><a href="tel:{{ terminal.phone }}" color="energy" medium>{{ terminal.phone }}</a></h3>
+                  <p>{{ terminal.manager }}</p>
+                  <p>{{ terminal.address }}</p>
+                </ion-item>
+              </ion-item-sliding>
+            </ion-list>
         </ion-col>
     </ion-row>
     <ion-row *ngIf="cityWeather">
         <ion-col width-100>
             <ion-list>
                 <ion-item>
-                    <img src="{{ getIcon(cityWeather.weather?.icon) }}" alt="weather">
-                    <h3 class="desc">{{ cityWeather.weather?.main }}: {{ cityWeather.weather?.description }}</h3>
+                  <ion-label><strong>Weather:</strong> {{ cityWeather.weather[0]?.description }}</ion-label>
                 </ion-item>
                 <ion-item>
-                  <strong>Coord:</strong> Long: {{ cityWeather.coord?.lon }} Lat:{{ cityWeather.coord?.lat }}
+                  <ion-label><strong>Coord:</strong> Long: {{ cityWeather.coord?.lon }} Lat:{{ cityWeather.coord?.lat }}</ion-label>
                 </ion-item>
                 <ion-item>
                   <strong>Temp:</strong> {{ cityWeather.main?.temp }}&deg;

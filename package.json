@@ -20,7 +20,7 @@
     "zipalign:app": "cd ./platforms/android/app/build/outputs/apk/release && ~/Library/Android/sdk/build-tools/28.0.3/zipalign  -v 4 app-release-unsigned.apk PmtOnline.apk",
     "deploy:apk": "npm run ionic:build:android && npm run sign:app",
     "verify:app": "npm run zipalign:app && cd ./platforms/android/app/build/outputs/apk/release && ~/Library/Android/sdk/build-tools/28.0.3/apksigner verify  PmtOnline.apk",
-    "move:apk": "npm run verify:app && mv ./platforms/android/app/build/outputs/apk/release/PmtOnline.apk ~/Desktop"
+    "move:apk": "mv ./platforms/android/app/build/outputs/apk/release/PmtOnline.apk ~/Desktop"
   },
   "dependencies": {
     "@angular/animations": "5.2.11",

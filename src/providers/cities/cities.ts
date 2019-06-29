@@ -19,14 +19,15 @@ export class Cities {
       this.recordRetrieve(queryString).then(data => {
           if(data.success && data.payload.length > 0){
             this.cities = data.payload;
-            this.storage.set('cities', JSON.stringify(this.cities)).then(data => data);
+            this.storage.set('cities', JSON.stringify(this.cities))
+            .then(data => data).catch(err => console.log(err.message));
           } else {
             this.storage.get('cities').then(data => {
               const cities = JSON.parse(data) ||  [];
               if (cities.length > 0){
                 this.cities = cities;
               }
-            });
+            }).catch(err => console.log(err.message));
 
           }
           if (this.cities.length === 0){
@@ -36,7 +37,7 @@ export class Cities {
             }
           }
 
-        }).catch(err => console.log(err));                
+        }).catch(err => console.log(err.message));                
   }
 
   query(params?: any) {

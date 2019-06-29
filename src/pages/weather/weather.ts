@@ -34,6 +34,7 @@ export class WeatherPage {
   	if (this.city && hasProp(this.city, 'name')) {
       this.getWeather(this.city);
     }
+    this.cities = this.cityProvider.query();
   }
 
   ionViewWillEnter() {
@@ -41,17 +42,18 @@ export class WeatherPage {
   }
 
   getIcon(name) {
-    const icon = name || '01d.png';
-    return `http://openweathermap.org/img/wn/${icon}@2x.png`;
+    return `http://openweathermap.org/img/w/${name}.png`
   }
 
  async getWeather(c: City) {
+   this.city = c;
     const url = `?type=weather&city=${c.name}&country=${c.country_iso2}`;
     try {
         const data = await this.weatherProvider.recordRetrieve(url);
-          this.cityWeather = data.payload;
+          this.cityWeather = data.payload[0];
+          console.log(data);
       } catch(err){
-        console.log(err);
+        console.log(err.message);
       }
   }
 

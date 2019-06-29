@@ -21,14 +21,16 @@
                 <ion-icon name="home" color="primary" item-left></ion-icon>
                 <p ion-text color="light" class="text-sm">Origin terminal</p>
                 <span ion-text color="dark" class="bold">{{ bookingData?.terminalFrom?.name }}</span>
+                <ion-icon name="md-arrow-dropdown" color="primary" item-right></ion-icon>
               </ion-item>
             </ion-col>
-
+            
             <ion-col col-12 no-padding>
               <ion-item tappable (click)="chooseTerminal('to')" class="border-bottom">
                 <ion-icon name="pin" color="primary" item-left></ion-icon>
                 <p ion-text color="light" class="text-sm">Destination terminal</p>
                 <span ion-text color="dark" class="bold">{{ bookingData?.terminalTo?.name }}</span>
+                <ion-icon name="md-arrow-dropdown" color="primary" item-right></ion-icon>
               </ion-item>
             </ion-col>
 
