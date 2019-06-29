@@ -1,6 +1,6 @@
 
-export function toObjectId(baseId = '5951bc91860d8b5ba', mysqlId = 1) {
-    const oldId = mysqlId.toString(10);
+export function toObjectId(baseId = '5951bc91860d8b5ba', mysqlId: any = 1) {
+    const oldId = (typeof mysqlId === 'string') ? mysqlId : mysqlId.toString(10);
     const a = '0'.repeat(7 - oldId.length);
     return baseId + a + oldId;
 }

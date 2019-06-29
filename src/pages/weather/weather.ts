@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
-import { Weathers } from '../../providers';
-import { Weather } from '../../models';
-import { map } from 'rxjs/operators';
-
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Weathers, Cities } from '../../providers';
+import { Weather, City } from '../../models';
+import { hasProp } from '../../helpers';
 
 @IonicPage({
   name: 'page-weather',
@@ -17,88 +16,43 @@ import { map } from 'rxjs/operators';
 })
 export class WeatherPage {
 
-  record: Weather;
-  wLocation: {
-    city: string,
-    country: string
-  }
+  cities: Array<City> = [];
+  city: City;
+  cityWeather: Weather;
 
-  public locationList: Array<{ city: string, country: string }> = [
-    { city: 'Aba', country: 'ng' },
-    { city: 'Abakaliki', country: 'ng' },
-    { city: 'Abuja', country: 'ng' },
-    { city: 'Afikpo', country: 'ng' },
-    { city: 'Akure', country: 'ng' },
-    { city: 'Asaba', country: 'ng' },
-    { city: 'Awka', country: 'ng' },
-    { city: 'Benin', country: 'ng' },
-    { city: 'Calabar', country: 'ng' },
-    { city: 'Ekiti', country: 'ng' },
-    { city: 'Enugu', country: 'ng' },
-    { city: 'Enugu Ezike', country: 'ng' },
-    { city: 'Ibadan', country: 'ng' },
-    { city: 'Ibafo', country: 'ng' },
-    { city: 'Ikom', country: 'ng' },
-    { city: 'Ilorin', country: 'ng' },
-    { city: 'Jos', country: 'ng' },
-    { city: 'Kaduna', country: 'ng' },
-    { city: 'Kano', country: 'ng' },
-    { city: 'Katsina', country: 'ng' },
-    { city: 'Lagos', country: 'ng' },
-    { city: 'Mararaba', country: 'ng' },
-    { city: 'Minna', country: 'ng' },
-    { city: 'Nnewi', country: 'ng' },
-    { city: 'Nsukka', country: 'ng' },
-    { city: 'Obollo Afor', country: 'ng' },
-    { city: 'Onitsha', country: 'ng' },
-    { city: 'Owerri', country: 'ng' },
-    { city: 'Port Harcourt', country: 'ng' },
-    { city: 'Suleja', country: 'ng' },
-    { city: 'Umuahia', country: 'ng' },
-    { city: 'Uyo', country: 'ng' },
-    { city: 'Warri', country: 'ng' },
-    { city: 'Yenagoa', country: 'ng' },
-];
-
+  param: any; // cityId
 
   constructor(
     public navCtrl: NavController,
-    private weatherProvider: Weathers) {
+    public navParams: NavParams,
+    public cityProvider: Cities,
+    public weatherProvider: Weathers) {
+    this.param = this.navParams.get('id');
+    const [record] = this.cityProvider.query({ id: this.param });
+    console.log("Params, Record =>", this.param , this.city );
+    this.city = record ? record : {};
+  	if (this.city && hasProp(this.city, 'name')) {
+      this.getWeather(this.city);
+    }
   }
 
   ionViewWillEnter() {
     //* get favourite location from storage?
   }
 
-  getIcon(name= '01d.png') {
-    return `http://openweathermap.org/img/wn/${name}@2x.png`;
+  getIcon(name) {
+    const icon = name || '01d.png';
+    return `http://openweathermap.org/img/wn/${icon}@2x.png`;
   }
 
-  public getWeather(location) {
+ async getWeather(c: City) {
+    const url = `?type=weather&city=${c.name}&country=${c.country_iso2}`;
     try {
-        this.weatherProvider.getWeather(location.city, location.country)
-        .subscribe((data: any) => {
-          this.record = data;
-        }, 
-        error => {
-          console.log(error);
-        });
-      } catch (err) {
+        const data = await this.weatherProvider.recordRetrieve(url);
+          this.cityWeather = data.payload;
+      } catch(err){
         console.log(err);
       }
-  }
-
-  async getWeather2(location): Promise<any> {
-    try {
-      await this.weatherProvider
-      .getWeather(location.city, location.country)
-      .pipe(map((res: any) => {
-              console.log(res);
-              return this.record = res;
-          })).toPromise();
-    } catch (err) {
-      console.log(err);
-    }
   }
 
 }

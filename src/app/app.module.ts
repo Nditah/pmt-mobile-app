@@ -13,7 +13,7 @@ import { Angular4PaystackModule } from 'angular4-paystack';
 import { PipesModule } from '../pipes/pipes.module';
 
 import { BookingService, ApiService, AuthService, EnvService, ErrorInterceptor, JwtInterceptor } from '../services';
-import { Weathers, Terminals, Messages, Notifications, PmtBookings, PmtReservations, PmtRoutes,
+import { Weathers, Cities, Terminals, Messages, Notifications, PmtBookings, PmtReservations, PmtRoutes,
   PmtSchedules, Ratings, Settings, PmlBillings, PmlRoutings, PmlShipments } from '../providers';
 
 import { pmtIonicApp } from "./app.component";
@@ -55,7 +55,7 @@ import { pmtIonicApp } from "./app.component";
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     ApiService, AuthService, EnvService, 
-    Terminals, Messages, Notifications, PmtBookings, PmtReservations,
+    Cities, Terminals, Messages, Notifications, PmtBookings, PmtReservations,
     PmtRoutes, PmtSchedules, Ratings, Settings, BookingService,
     PmlBillings, PmlRoutings, PmlShipments,
   ]

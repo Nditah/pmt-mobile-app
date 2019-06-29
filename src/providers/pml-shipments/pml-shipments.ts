@@ -67,8 +67,8 @@ export class PmlShipments {
     this.pmlShipments.splice(this.pmlShipments.indexOf(record), 1);
   }
 
-  async recordRetrieve(queryString = ''): Promise<ApiResponse> {
-      const url = `${this.env.API_URL}/pml-shipments${queryString}`;
+  async recordRetrieve(queryString): Promise<ApiResponse> {
+      const url = queryString || `?filter={"$or":[{"sender_id":"${this.user.id}"},{"recipient_id":"${this.user.id}"}]}`;
       const proRes = this.apiService.getApi(url).pipe(
           map((res: ApiResponse) => {
               console.log(res);

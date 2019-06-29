@@ -13,50 +13,60 @@
 
       <ion-item>
         <ion-label class="text-1x bold">Select Local</ion-label>
-        <ion-select [(ngModel)]="wLocation" (ionChange)="getWeather(wLocation)">
-          <ion-option *ngFor="let location of locationList" [value]="location">{{ location.city }}</ion-option>
+        <ion-select [(ngModel)]="selectedCity" (ionChange)="getWeather(selectedCity)">
+          <ion-option *ngFor="let city of cities" [value]="location">{{ city.name }} ∙ {{ city.country_iso2 | uppercase }}</ion-option>
         </ion-select>
       </ion-item>
 
     </ion-card-content>
   </ion-card>
 
-  <ion-grid class="card" padding *ngIf="record">
+  <ion-grid class="card" padding *ngIf="city">
     <ion-row>
         <ion-col width-50 offset-25>
-            <h2 class="location text-dark">{{ record.name }}</h2>
-            <div class="icon"><img src="{{ getIcon(record.weather.icon) }}" alt="weather"></div>
-            <h3 class="desc">{{ record.weather.main }}: {{ record.weather.description }}</h3>
-            <h1 class="temp">{{ record.main?.temp }}&deg;</h1>
+            <h2>{{ city.name }} ∙ {{ city.country_iso2 | uppercase }}</h2>
+            <ion-list *ngIf="city?.terminal_ids?.length > 0">
+                <ion-item-sliding *ngFor="let terminal of terminal_ids">
+                  <ion-item class="itemm" text-wrap>
+                    <p><strong>{{ terminal.name }}</strong></p>
+                    <h3><a href="tel:{{ terminal.phone }}" color="energy" medium>{{ terminal.phone }}</a></h3>
+                    <p>{{ terminal.manager }}</p>
+                    <p>{{ terminal.address }}</p>
+                  </ion-item>
+                </ion-item-sliding>
+              </ion-list>
         </ion-col>
     </ion-row>
-    <ion-row>
+    <ion-row *ngIf="cityWeather">
         <ion-col width-100>
             <ion-list>
-
                 <ion-item>
-                  <strong>Coord:</strong> Long: {{ record.coord?.lon }} Lat:{{ record.coord?.lat }}
+                    <img src="{{ getIcon(cityWeather.weather?.icon) }}" alt="weather">
+                    <h3 class="desc">{{ cityWeather.weather?.main }}: {{ cityWeather.weather?.description }}</h3>
                 </ion-item>
                 <ion-item>
-                  <strong>Temp:</strong> {{ record.main?.temp }}&deg;
+                  <strong>Coord:</strong> Long: {{ cityWeather.coord?.lon }} Lat:{{ cityWeather.coord?.lat }}
+                </ion-item>
+                <ion-item>
+                  <strong>Temp:</strong> {{ cityWeather.main?.temp }}&deg;
                 </ion-item>
                  <ion-item>
-                    <strong>Humidity:</strong> {{ record.main?.humidity }}%
+                    <strong>Humidity:</strong> {{ cityWeather.main?.humidity }}%
                 </ion-item>
                  <ion-item>
-                    <strong>Pressure:</strong> {{ record.main?.pressure }}hPa
+                    <strong>Pressure:</strong> {{ cityWeather.main?.pressure }}hPa
                 </ion-item>
                  <ion-item>
                     <strong>Visibility:</strong> 
                 </ion-item>
                 <ion-item>
-                    <strong>Wind:</strong> {{ record.wind?.speed }}m/s {{ record.wind?.deg }}deg
+                    <strong>Wind:</strong> {{ cityWeather.wind?.speed }}m/s {{ cityWeather.wind?.deg }}deg
                 </ion-item>
                 <ion-item>
-                    <strong>Rain 3hr:</strong> {{ record.rain['3h'] ? record.rain['3h'] : '' }}mm
+                    <strong>Rain 3hr:</strong> 
                 </ion-item>
                 <ion-item>
-                    <strong>Cloudiness:</strong> {{ record.clouds?.all }}%
+                    <strong>Cloudiness:</strong> {{ cityWeather.clouds?.all }}%
                 </ion-item>
 
             </ion-list>

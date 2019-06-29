@@ -1,54 +1,57 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { map, catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { _throw}  from 'rxjs/observable/throw';
 import { Storage } from '@ionic/storage';
-// https://openweathermap.org/current
+import { ApiResponse } from '../../models';
+import { ApiService, EnvService } from '../../services';
 
 @Injectable()
 export class Weathers {
   
-  apiKey = 'e991e1db6b5fdbc1115d0be452700281';
-  url = 'http://api.openweathermap.org/data/2.5/weather';
-  // 'http://api.openweathermap.org/data/2.5/forecast';
 
-  constructor(public http: HttpClient, 
-    public storage: Storage) {
-    console.log('Hello WeatherProvider Provider');
+  records: Array<any> = [];
+
+  constructor(public storage: Storage,
+    private env: EnvService,
+    private apiService: ApiService) {
   }
 
-  getWeather(city='Enugu', country = 'ng'): Observable<any> {
-    return this.http.get(`${this.url}?q=${city},${country}&APPID=${this.apiKey}&units=metric`)
-    .pipe(map(this.extractData));
-  }
-
-  // Private
-  private extractData(res: Response) {
-    let body = res;
-    return body || {};
-  }
-
-  private handleError2(error: Response | any) {
-    let errMsg: string;
-    if (error.error instanceof Response) {
-      const err = error.error|| '';
-      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-    } else {
-      errMsg = error.error.message ? error.error.message : error.error.toString();
+  query(params?: any) {
+    if (!params) {
+      return this.records;
     }
-    console.error(errMsg);
-    return _throw(errMsg);
+    return this.records.filter((record) => {
+      // tslint:disable-next-line:forin
+      for (const key in params) {
+        const field = record[key];
+        if (typeof field === 'string' && field.toLowerCase().indexOf(params[key].toLowerCase()) >= 0) {
+          return record;
+        } else if (field === params[key]) {
+          return record;
+        }
+      }
+      return null;
+    });
   }
 
-  private handleError(error: HttpErrorResponse) {
-    if (error.error instanceof ErrorEvent) {
-      console.error('An error occurred:', error.error.message);
-    } else {
-      console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
-    }
-    return _throw(error.error);
+  add(record) {
+    this.records.push(record);
   }
+
+  async recordRetrieve(queryString = ''): Promise<ApiResponse> {
+    const url = `${this.env.API_URL}/cities/weather${queryString}`;
+    console.log('GET url ==>', url);
+    const proRes = this.apiService.getApi(url).pipe(
+        map((res: ApiResponse) => {
+            console.log(res);
+            if (res.success && res.payload.length > 0) {
+                this.records = res.payload;
+            } else {
+                _throw(res.message);
+            }
+            return res;
+        }));
+    return await proRes.toPromise();
+  }
+
 }
