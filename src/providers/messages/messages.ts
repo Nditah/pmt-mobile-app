@@ -35,7 +35,6 @@ export class Messages {
                 this.storage.get('messages').then(data => {
                   this.messages = data ? JSON.parse(data) : [];
                 });
-
               }
             }).catch(err => console.log(err));                
         }

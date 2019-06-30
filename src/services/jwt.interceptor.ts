@@ -19,10 +19,10 @@ export class JwtInterceptor  implements HttpInterceptor {
       return Observable.fromPromise(promise).mergeMap(token => {
             let clonedReq = this.addToken(request, token);
             return next.handle(clonedReq).pipe(catchError(error => {
-                console.log('JwtInterceptor => ', error, error.error);
+                console.log('JwtInterceptor => ', error);
                 let alert = this.alertCtrl.create({
                     title: 'Error!',
-                    message: error.message || 'Please check your network connection.',
+                    message: error.message || 'Network connection error.',
                     buttons: ['OK']
                 });
                 alert.present();

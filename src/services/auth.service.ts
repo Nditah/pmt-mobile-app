@@ -55,6 +55,11 @@ export class AuthService {
       return await response.toPromise();
   }
 
+  async postOtp(data): Promise<any> {
+    return await this.http.post(this.env.API_URL + '/sms/otp', data)
+    .pipe().toPromise();
+  }
+
   createToast(message: string) {
     const toast = this.toastCtrl.create({
       message,

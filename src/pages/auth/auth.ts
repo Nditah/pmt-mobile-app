@@ -117,31 +117,48 @@ export class AuthPage implements OnInit {
   forgotPass() {
     let forgot = this.alertCtrl.create({
       title: 'Forgot Password?',
-      message: "Enter you Email to send a reset link password or Phone number for an OTP.",
+      message: "Enter your Phone number for an OTP.",
       inputs: [
-        { name: 'email', placeholder: 'Email', type: 'email' },
+        // { name: 'email', placeholder: 'Email', type: 'email' },
         { name: 'phone', placeholder: 'Phone', type: 'tel' },
       ],
       buttons: [
         {
           text: 'Cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
+          handler: data => {}
         },
         {
           text: 'Send',
           handler: data => {
+            if (! /^[0-9]{11}$/.test(data.phone)){
+              this.authService.createToast("Please input a valid mobile number with 11 digits");
+              return false;
+            }
             console.log('Send clicked', data);
-            let toast = this.toastCtrl.create({
-              message: 'Email was sended successfully',
-              duration: 3000,
-              position: 'top',
-              cssClass: 'dark-trans',
-              closeButtonText: 'OK',
-              showCloseButton: true
+            data.user_type = 'CUSTOMER';
+            this.authService.postOtp(data).then(res => {
+              const msg = res.success ? 'OTP successfully sent' : res.message;
+              let toast = this.toastCtrl.create({
+                message: msg,
+                duration: 5000,
+                position: 'top',
+                cssClass: 'dark-trans',
+                closeButtonText: 'OK',
+                showCloseButton: true
+              });
+              toast.present();              
+            }).catch(err => {
+              let toast = this.toastCtrl.create({
+                message: 'Error sending OTP message. Please try again later or contact support',
+                duration: 3000,
+                position: 'top',
+                cssClass: 'dark-trans',
+                closeButtonText: 'OK',
+                showCloseButton: true
+              });
+              toast.present();  
             });
-            toast.present();
+
           }
         }
       ]
