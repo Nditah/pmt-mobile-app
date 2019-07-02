@@ -18,11 +18,11 @@
             <ion-list>
                 <ion-item *ngFor="let d of faqPmt; let i=index" text-wrap (click)="toggleGroup(i)" [ngClass]="{active: isGroupShown(i)}">
                 <div>
-                    <h3><strong>{{ d.q }}</strong>
-                      <ion-icon color="success" item-right [name]="isGroupShown(i) ? 'arrow-dropdown' : 'arrow-dropright'" item-end></ion-icon>
-                    </h3>
+                    <button  ion-button block color="primary" icon-end>{{ d.q }}
+                      <ion-icon color="success" [name]="isGroupShown(i) ? 'arrow-dropdown' : 'arrow-dropright'" item-end></ion-icon>
+                    </button>
                 </div>
-                <div *ngIf="isGroupShown(i)">{{ d.a }}</div>
+                  <div *ngIf="isGroupShown(i)"><strong>{{ d.a }}</strong></div>
                 </ion-item>
             </ion-list>
         </ion-card>

@@ -14,27 +14,17 @@ export class Cities {
   constructor(public storage: Storage,
     private env: EnvService,
     private apiService: ApiService) {
-
       const queryString = `?country_iso2=ng&sort=name,state_id.id`;
       this.recordRetrieve(queryString).then(data => {
           if(data.success && data.payload.length > 0){
-            this.cities = data.payload;
+            // this.cities = data.payload;
             this.storage.set('cities', JSON.stringify(this.cities))
             .then(data => data).catch(err => console.log(err.message));
           } else {
             this.storage.get('cities').then(data => {
-              const cities = JSON.parse(data) ||  [];
-              if (cities.length > 0){
-                this.cities = cities;
-              }
+              this.cities = JSON.parse(data) ||  this.sortCity(CityData);
             }).catch(err => console.log(err.message));
 
-          }
-          if (this.cities.length === 0){
-            const records: Array<any> = this.sortCity(CityData);
-            for (const item of records) {
-              this.cities.push(new City(item));
-            }
           }
 
         }).catch(err => console.log(err.message));                
@@ -59,13 +49,6 @@ export class Cities {
     });
   }
 
-  add(record: City) {
-    this.cities.push(record);
-  }
-
-  delete(record: City) {
-    this.cities.splice(this.cities.indexOf(record), 1);
-  }
 
   async recordRetrieve(queryString = ''): Promise<ApiResponse> {
     const query = queryString || `?country_iso2=ng&sort=name,state_id.id`;

@@ -1,6 +1,7 @@
 import {Component} from "@angular/core";
 import {IonicPage, NavController, NavParams, MenuController, ModalController, PopoverController} from "ionic-angular";
 import {NotificationsPage} from "../notifications/notifications";
+import { AuthService } from "../../services";
 
 @IonicPage({
   name: 'page-home',
@@ -16,6 +17,7 @@ import {NotificationsPage} from "../notifications/notifications";
 export class HomePage {
 
   constructor(public nav: NavController,
+    private authService: AuthService,
     public navParams: NavParams,
     public menuCtrl: MenuController,
     public modalCtrl: ModalController,
@@ -47,6 +49,10 @@ export class HomePage {
     popover.present({
       ev: myEvent
     });
+  }
+
+  comingSoon() {
+    this.authService.createToast('This feature is coming soon!');
   }
 
 }

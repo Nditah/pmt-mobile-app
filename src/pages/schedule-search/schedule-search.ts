@@ -113,6 +113,10 @@ export class ScheduleSearchPage {
     }
   }
 
+  comingSoon() {
+    this.authService.createToast('This feature is coming soon!');
+  }
+
 }
 
 //

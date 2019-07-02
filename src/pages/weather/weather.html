@@ -24,8 +24,8 @@
   <ion-grid class="card" padding *ngIf="city">
     <ion-row>
         <ion-col>
-            <h3>{{ city.name }} ∙ {{ city.country_iso2 | uppercase }}
-              <img item-left src="{{ getIcon(cityWeather?.weather[0]?.icon) }}" alt="weather">
+            <h3>{{ city?.name }}  {{ city?.country_iso2 | uppercase }}
+              <img item-left src="{{ getIcon(cityWeather?.weather[0]?.icon) }}" alt="">
             </h3>
             <ion-list *ngIf="city?.terminal_ids?.length > 0">
               <ion-item-sliding *ngFor="let terminal of terminal_ids">
@@ -69,7 +69,6 @@
                 <ion-item>
                     <strong>Cloudiness:</strong> {{ cityWeather.clouds?.all }}%
                 </ion-item>
-
             </ion-list>
         </ion-col>
     </ion-row>

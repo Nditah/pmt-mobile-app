@@ -51,7 +51,7 @@
         
           <ion-row>
             <ion-col no-padding>
-              <button ion-button block color="secondary" class="round" no-margin tappable (click)="searchShipment()">
+              <button ion-button block color="primary" class="round" no-margin tappable [disabled]="!searchForm.valid" (click)="searchShipment()">
                   <ion-icon name="search"></ion-icon> Search
               </button>
             </ion-col>
@@ -60,5 +60,30 @@
       </div>
     </div> 
   
+
+  <div class="deals" no-margin>
+    <ion-card class="opt-card">
+      <ion-card-header>
+        <ion-card no-margin class="w100">
+          <ion-card-content class="secondary-bg">
+            <h2 ion-text class="bold text-white" text-center>Quality Peace Petroleum</h2>
+          </ion-card-content>
+        </ion-card>
+      </ion-card-header>
+
+      <ion-card-content class="card-background-page" tappable (click)="comingSoon()">
+        <ion-grid no-padding>
+          <ion-row>
+            <ion-col col-12 no-padding>
+              <ion-card no-margin>
+                <img src="assets/img/pet2.jpg" />
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </div>  
+
   </ion-content>
   

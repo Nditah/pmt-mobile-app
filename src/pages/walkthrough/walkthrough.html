@@ -14,12 +14,11 @@
 			      <h3 class="slide-title text-white" [innerHTML]="slide.title"></h3>
 			      <p [innerHTML]="slide.description" class="text-white"></p>
 
-						<div padding>
-				      <button ion-button round block color="secondary" margin-top icon-end (click)="onSlideNext()">
-				      	Next
-				      	<ion-icon name="arrow-round-forward"></ion-icon>
-				    	</button>
-			    	</div>
+					<div padding>
+						<button ion-button round color="secondary" margin-top icon-end (click)="onSlideNext()">
+							Next<ion-icon name="arrow-round-forward"></ion-icon>
+						</button>
+					</div>
 			    </ion-slide>
 			    <ion-slide>
 			      <ion-toolbar>

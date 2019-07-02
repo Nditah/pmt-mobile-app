@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { IonicPage, NavController, NavParams, MenuController, ModalController, PopoverController} from "ionic-angular";
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { PmlShipments } from "../../providers";
+import { AuthService } from "../../services";
 
 
 @IonicPage({
@@ -19,6 +20,7 @@ export class ShipmentSearchPage implements OnInit {
   public searchForm: FormGroup;
 
   constructor(public navCtrl: NavController,
+    private authService: AuthService,
     public pmlShipments: PmlShipments,
     private formBuilder: FormBuilder,
     public modalCtrl: ModalController,
@@ -32,7 +34,7 @@ export class ShipmentSearchPage implements OnInit {
 
   ngOnInit() {
     this.searchForm = this.formBuilder.group({
-      code: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(11), Validators.maxLength(14)])],
+      code: ['', Validators.compose([Validators.required, Validators.minLength(7), Validators.maxLength(12)])],
     });
   }
 
@@ -54,6 +56,10 @@ export class ShipmentSearchPage implements OnInit {
     } else {
         return;
     }
+  }
+
+  comingSoon() {
+    this.authService.createToast('This feature is coming soon!');
   }
 
 }

@@ -17,7 +17,7 @@ import { hasProp } from '../../helpers';
 export class WeatherPage {
 
   cities: Array<City> = [];
-  city: City;
+  city: City = {};
   cityWeather: Weather;
 
   param: any; // cityId
@@ -27,22 +27,27 @@ export class WeatherPage {
     public navParams: NavParams,
     public cityProvider: Cities,
     public weatherProvider: Weathers) {
-    this.param = this.navParams.get('id');
-    const [record] = this.cityProvider.query({ id: this.param });
-    console.log("Params, Record =>", this.param , this.city );
-    this.city = record ? record : {};
-  	if (this.city && hasProp(this.city, 'name')) {
-      this.getWeather(this.city);
-    }
-    this.cities = this.cityProvider.query();
+    this.param = this.navParams.get('id') || '';
+    this.cityProvider.recordRetrieve().then(data => {
+      this.cities = this.cityProvider.query();
+      const [record] = this.cityProvider.query({ id: this.param });
+      this.city = record ? record : this.cities[0];
+      if (this.city && hasProp(this.city, 'name')) {
+        this.getWeather(this.city);
+      }
+    });
   }
 
   ionViewWillEnter() {
     //* get favourite location from storage?
+    console.log("ionViewWillEnter Cities =>", this.cities );
   }
 
   getIcon(name) {
-    return `http://openweathermap.org/img/w/${name}.png`
+    if (name){
+      return `http://openweathermap.org/img/w/${name}.png`
+    }
+    return '';
   }
 
  async getWeather(c: City) {
