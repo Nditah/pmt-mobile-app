@@ -174,6 +174,7 @@ export class CheckoutBookingPage {
             value: `${this.bookingData.customer.surname} ${this.bookingData.customer.other_name}`,
           },
       ]}
+      console.log(`this.metadata =>`, this.metadata);
     }
 
     getReservation(): PmtReservation {
