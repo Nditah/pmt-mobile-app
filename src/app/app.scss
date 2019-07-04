@@ -603,7 +603,7 @@ ion-navbar.no-border {
   background-image: linear-gradient(135deg, color($colors, dark), color($colors, primary), color($colors, light));
   &::after {
     content: "";
-    background: url("../assets/img/bus-logo.jpg") no-repeat;
+    background: url("../assets/img/bg.jpg") no-repeat;
     background-size: cover;
     opacity: 0.1;
     top: 0;
@@ -648,7 +648,7 @@ ion-navbar.no-border {
         height: 60px;
         margin: 20px auto 0;
         border-radius: 10%;
-        background: url("../assets/img/tripionic-ico.png") no-repeat;
+        background: url("../assets/img/logo.png") no-repeat;
         background-size: 100%;
       }
 
@@ -916,7 +916,7 @@ ion-icon[ng-reflect-disabled="true"] {
   page-home,
   .home {
     .content {
-      background-image: url("../assets/img/webapp-bg.jpg");
+      background-image: url("../assets/img/bg1.jpg");
       background-size: cover;
       background-position: 50%;
     }

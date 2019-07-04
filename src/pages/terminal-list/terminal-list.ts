@@ -15,6 +15,7 @@ import { Terminal } from '../../models';
 export class TerminalListPage {
 
   terminals: Array<Terminal> = [];
+  public photo: string = '/assets/img/bus-logo.jpg';
 
   constructor(public navCtrl: NavController,
     public terminalService: Terminals) {

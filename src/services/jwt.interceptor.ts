@@ -16,23 +16,18 @@ export class JwtInterceptor  implements HttpInterceptor {
 
       let promise = this.storage.get('token');
 
-      return Observable.fromPromise(promise)
-          .mergeMap(token => {
-              let clonedReq = this.addToken(request, token);
-              return next.handle(clonedReq).pipe(
-                  catchError(error => {
-                      // Perhaps display an error for specific status codes here already?
-                      const msg = error.message;
-                      let alert = this.alertCtrl.create({
-                          title: 'Connection Error!',
-                          message: `Please check your network connection. ${error.name} ${msg}`,
-                          buttons: ['OK']
-                      });
-                      alert.present();
-                      // Pass the error to the caller of the function
-                      return _throw(error);
-                  })
-              );
+      return Observable.fromPromise(promise).mergeMap(token => {
+            let clonedReq = this.addToken(request, token);
+            return next.handle(clonedReq).pipe(catchError(error => {
+                console.log('JwtInterceptor => ', error);
+                let alert = this.alertCtrl.create({
+                    title: 'Error!',
+                    message: error.message || 'Network connection error.',
+                    buttons: ['OK']
+                });
+                alert.present();
+                return _throw(error);
+                }));
           });
   }
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { _throw}  from 'rxjs/observable/throw';
+import { Storage } from '@ionic/storage';
 import { PmtReservation, ApiResponse, Customer } from '../../models';
 import { ApiService, EnvService, AuthService } from '../../services';
 import { hasProp } from '../../helpers';
@@ -12,10 +13,10 @@ export class PmtReservations {
   pmtReservations: PmtReservation[] = [];
   user: Customer;
 
-  constructor(private env: EnvService,
+  constructor(public storage: Storage,
+    private env: EnvService,
     private apiService: ApiService,
-    private authService: AuthService,
-    ) {
+    private authService: AuthService) {
     const pmtReservations = []; // Initial Values
     for (const pmtReservation of pmtReservations) {
       this.pmtReservations.push(new PmtReservation(pmtReservation));
@@ -25,7 +26,16 @@ export class PmtReservations {
           this.user = new Customer(pmtBooking.customer);
           if (hasProp(this.user, 'id')){
               const queryString = `?customer_id=${this.user.id}&sort=-created_at`;
-              this.recordRetrieve(queryString).then().catch(err => console.log(err));                
+              this.recordRetrieve(queryString).then(data => {
+                if(data.success){
+                  this.pmtReservations = data.payload.length > 0 ? data.payload : [];
+                  this.storage.set('pmtReservations', JSON.stringify(this.pmtReservations)).then(data => data);
+                } else {
+                  this.storage.get('pmtReservations').then(data => {
+                    this.pmtReservations = data ? JSON.parse(data) : [];
+                  });
+                }
+              }).catch(err => console.log(err));                
           }
         }
       }).catch(err => console.log(err));
@@ -58,15 +68,13 @@ export class PmtReservations {
     this.pmtReservations.splice(this.pmtReservations.indexOf(record), 1);
   }
 
-  async recordRetrieve(queryString = ''): Promise<ApiResponse> {
-    const url = `${this.env.API_URL}/pmt-reservations${queryString}`;
+  async recordRetrieve(queryStr = `?customer_id=${this.user.id}&sort=-created_at`): Promise<ApiResponse> {
+    const url = `${this.env.API_URL}/pmt-reservations${queryStr}`;
     const proRes = this.apiService.getApi(url).pipe(
         map((res: ApiResponse) => {
             console.log(res);
             if (res.success && res.payload.length > 0) {
-                res.payload.forEach(element => {
-                    this.add(element);
-                });
+              this.pmtReservations = res.payload;
             } else {
                 _throw(res.message);
             }
@@ -78,9 +86,10 @@ export class PmtReservations {
   async recordCreate(record: PmtReservation): Promise<ApiResponse> {
       const url = `${this.env.API_URL}/pmt-reservations`;
       const proRes = this.apiService.postApi(url, record).pipe(
-          map((res: ApiResponse) => {
+          map(async(res: ApiResponse) => {
               if (res.success && res.payload) {
-                  console.log('recordCreate() successful');
+                await this.recordRetrieve();
+                  console.log('recordCreate()', res);
               } else {
                   _throw(res.message);
               }

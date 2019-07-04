@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { _throw}  from 'rxjs/observable/throw';
+import { Storage } from '@ionic/storage';
 import { ApiResponse, PmtSchedule } from '../../models';
 import { ApiService, EnvService } from '../../services';
 // import sample from './data';
@@ -11,9 +12,9 @@ export class PmtSchedules {
   pmtSchedules: Array<PmtSchedule> = [];
   currentSchedule: PmtSchedule;
 
-
-  constructor(private apiService: ApiService,
-    private env: EnvService) {
+  constructor(public storage: Storage,
+    private env: EnvService,
+    private apiService: ApiService) {
     const records: Array<any> = []; // sample 
     for (const item of records) {
       this.pmtSchedules.push(new PmtSchedule(item));
@@ -49,13 +50,12 @@ export class PmtSchedules {
 
   async recordRetrieve(queryString = ''): Promise<ApiResponse> {
     const url = `${this.env.API_URL}/pmt-schedules${queryString}`;
+    console.log('GET url ==>', url);
     const proRes = this.apiService.getApi(url).pipe(
         map((res: ApiResponse) => {
             console.log(res);
             if (res.success && res.payload.length > 0) {
-                res.payload.forEach(element => {
-                    this.add(element);
-                });
+                this.pmtSchedules = res.payload;
             } else {
                 _throw(res.message);
             }

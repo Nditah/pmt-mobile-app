@@ -1,0 +1,89 @@
+<!-- -->
+<ion-header class="no-shadow">
+
+  <ion-navbar class="no-border" color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      <div ion-text class="icon-title text-white"></div>
+      <span class="text-light">PML</span><strong>Online</strong>
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button tappable (click)="presentNotifications($event)">
+        <ion-icon name="notifications"></ion-icon>
+      </button>
+      <button ion-button tappable (click)="goToAccount()">
+        <ion-icon name="cog"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content class="common-bg">
+  <!--list menu on the top-->
+  <div class="trip-card-wrapper" no-margin>
+      <div class="booking-card" padding>
+        <ion-grid class="card" fixed>
+  
+          <ion-row>
+            <ion-col col-12 no-padding>
+  
+              <ion-card no-margin class="full-width">
+                <ion-item class="border-bottom">
+                  <ion-icon name="home" color="primary" item-left></ion-icon>
+                  <span ion-text color="dark" class="bold">Track Shipment</span>
+                </ion-item>
+                <form [formGroup]="searchForm" class="list-form">
+                    <ion-item>
+                      <ion-label floating>
+                        <ion-icon name="paper-plane" item-start class="text-white"></ion-icon>
+                        ABC-123-987-XYD
+                      </ion-label>
+                      <ion-input type="text" formControlName="code"></ion-input>
+                    </ion-item>
+                    <p ion-text color="danger" class="text-1x has-error" *ngIf="searchForm.get('code').touched && searchForm.get('code').hasError('required')">Shipment code is required</p>
+              </form>             
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        
+          <ion-row>
+            <ion-col no-padding>
+              <button ion-button block color="primary" class="round" no-margin tappable [disabled]="!searchForm.valid" (click)="searchShipment()">
+                  <ion-icon name="search"></ion-icon> Search
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </div> 
+  
+
+  <div class="deals" no-margin>
+    <ion-card class="opt-card">
+      <ion-card-header>
+        <ion-card no-margin class="w100">
+          <ion-card-content class="secondary-bg">
+            <h2 ion-text class="bold text-white" text-center>Quality Peace Petroleum</h2>
+          </ion-card-content>
+        </ion-card>
+      </ion-card-header>
+
+      <ion-card-content class="card-background-page" tappable (click)="comingSoon()">
+        <ion-grid no-padding>
+          <ion-row>
+            <ion-col col-12 no-padding>
+              <ion-card no-margin>
+                <img src="assets/img/pet2.jpg" />
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+  </div>  
+
+  </ion-content>
+  

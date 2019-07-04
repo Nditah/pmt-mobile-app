@@ -35,8 +35,7 @@ export class AuthPage implements OnInit {
 
   ngOnInit() {
     this.onLoginForm = this.formBuilder.group({
-      phone: ['', Validators.compose([Validators.required, Validators.pattern('[0-9]*'), Validators.minLength(11), Validators.maxLength(14)])],
-      email: ['', Validators.compose([ Validators.required ])],
+      username: ['', Validators.compose([Validators.required, Validators.minLength(11), Validators.maxLength(100)])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(4)])]
     });
 
@@ -69,20 +68,22 @@ export class AuthPage implements OnInit {
   }
 
   login() {
-    const payload = this.onLoginForm.value;
-    this.authService.postLogin(payload).then((res: any) => {
-      // console.log('auth.service: res =>', res);
-    if (res.success) {
-      this.initBooking().then();
-      this.createToast(`Login successful. Welcome! PMT Online`);
-      this.navCtrl.setRoot('page-home');
-      return;
+    const { username, password } = this.onLoginForm.value;
+    const payload = { email: username, phone: username, password };
+    if (this.validateEmail(username)){
+      delete payload.phone;
     } else {
-      this.createToast(res.message);
+      delete payload.email;
     }
+    this.authService.postLogin(payload).then((res: any) => {
+      if (res.success) {
+        this.initBooking().then();
+        this.authService.createToast(`Login successful. Welcome! PMT Online`);
+        this.navCtrl.setRoot('page-home');
+        return;
+      }
     }).catch((error) => {
-        this.authService.createToast('Network failure or server unavailable');
-        console.log(error.message);
+        this.authService.createToast(error.message);
       });
   }
 
@@ -90,62 +91,74 @@ export class AuthPage implements OnInit {
     // this.navCtrl.setRoot(RegisterPage);
     const payload = this.onRegisterForm.value;
     payload.customer_type = 'INDIVIDUAL';
-    return this.authService.createCustomer(payload)
-      .subscribe((data: ApiResponse) => {
+    return this.authService.createCustomer(payload).then((data: ApiResponse) => {
       // console.log('Registration response', data);
       if (data.success) {
         const { email, phone, password } = payload;
         return this.authService.postLogin({ email, phone, password })
           .then((response: LoginResponse) => {
-          // console.log(response);
+          console.log("Response => ", response);
             if (!response.success) {
-              return this.authService.createToast(response['message']);
+              return this.authService.createToast(response.message);
             }
-            this.initBooking().then();
-            return;
+            // this.initBooking().then();
           }).catch((error) => {
-            console.log(error.message);
-            return this.authService.createToast('Network failure or server unavailable');
+            const msg = error.message || 'Network failure or server unavailable';
+            return this.authService.createToast(msg);
           })
         }
         this.authService.createToast(data.message);
-      },
-      error => { 
-        // console.log(error); 
-      },
-      () => {}
-    );
+      }).catch(error => { 
+        this.authService.createToast(error.message);
+      });
   }
 
   
   forgotPass() {
     let forgot = this.alertCtrl.create({
       title: 'Forgot Password?',
-      message: "Enter you Email to send a reset link password or Phone number for an OTP.",
+      message: "Enter your Phone number for an OTP.",
       inputs: [
-        { name: 'email', placeholder: 'Email', type: 'email' },
+        // { name: 'email', placeholder: 'Email', type: 'email' },
         { name: 'phone', placeholder: 'Phone', type: 'tel' },
       ],
       buttons: [
         {
           text: 'Cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
+          handler: data => {}
         },
         {
           text: 'Send',
           handler: data => {
+            if (! /^[0-9]{11}$/.test(data.phone)){
+              this.authService.createToast("Please input a valid mobile number with 11 digits");
+              return false;
+            }
             console.log('Send clicked', data);
-            let toast = this.toastCtrl.create({
-              message: 'Email was sended successfully',
-              duration: 3000,
-              position: 'top',
-              cssClass: 'dark-trans',
-              closeButtonText: 'OK',
-              showCloseButton: true
+            data.user_type = 'CUSTOMER';
+            this.authService.postOtp(data).then(res => {
+              const msg = res.success ? 'OTP successfully sent' : res.message;
+              let toast = this.toastCtrl.create({
+                message: msg,
+                duration: 5000,
+                position: 'top',
+                cssClass: 'dark-trans',
+                closeButtonText: 'OK',
+                showCloseButton: true
+              });
+              toast.present();              
+            }).catch(err => {
+              let toast = this.toastCtrl.create({
+                message: 'Error sending OTP message. Please try again later or contact support',
+                duration: 3000,
+                position: 'top',
+                cssClass: 'dark-trans',
+                closeButtonText: 'OK',
+                showCloseButton: true
+              });
+              toast.present();  
             });
-            toast.present();
+
           }
         }
       ]

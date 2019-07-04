@@ -21,40 +21,31 @@
 		<div [ngSwitch]="auth">
 			<!-- Login form -->
 			<div id="loginForm" *ngSwitchCase="'login'">
-				<form [formGroup]="onLoginForm" class="list-form">
-					<ion-item>
-		        <ion-label floating>
-		          <ion-icon name="call" item-start class="text-white"></ion-icon>
-		          Phone
-		        </ion-label>
-		        <ion-input color="secondary" type="phone" formControlName="phone"></ion-input>
-		      </ion-item>
-		      <p ion-text color="danger" class="text-1x has-error" *ngIf="onRegisterForm.get('phone').touched && onRegisterForm.get('phone').hasError('required')">This field is required</p>
-					
-					<ion-item>
-						<ion-label floating>
-							<ion-icon name="mail" item-start class="text-white"></ion-icon>
-							Email
-						</ion-label>
-						<ion-input type="email" formControlName="email"></ion-input>
-					</ion-item>
-					<p ion-text color="danger" class="text-1x has-error" *ngIf="onLoginForm.get('email').touched && onLoginForm.get('email').hasError('required')">This field is required</p>
+			<form [formGroup]="onLoginForm" class="list-form">
+				<ion-item>
+		        	<ion-label floating>
+		          	<ion-icon name="person" item-start class="text-white"></ion-icon>
+		          	Phone or Email
+		        	</ion-label>
+		        	<ion-input color="secondary" type="text" formControlName="username"></ion-input>
+		      	</ion-item>
+		      	<p ion-text color="danger" class="text-1x has-error" *ngIf="onLoginForm.get('username').touched && onLoginForm.get('username').hasError('required')">Email or Phone input is required</p>
+		
+				<ion-item>
+					<ion-label floating>
+					<ion-icon name="lock" item-start class="text-white"></ion-icon>
+					Password
+					</ion-label>
+					<ion-input type="password" formControlName="password"></ion-input>
+				</ion-item>
+				<p ion-text color="danger" class="text-1x has-error" *ngIf="onLoginForm.get('password').touched && onLoginForm.get('password').hasError('required')">This field is required</p>
+			</form>
 
-					<ion-item>
-						<ion-label floating>
-							<ion-icon name="lock" item-start class="text-white"></ion-icon>
-							Password
-						</ion-label>
-						<ion-input type="password" formControlName="password"></ion-input>
-					</ion-item>
-					<p ion-text color="danger" class="text-1x has-error" *ngIf="onLoginForm.get('password').touched && onLoginForm.get('password').hasError('required')">This field is required</p>
-				</form>
-
-				<p text-right ion-text color="light" tappable (click)="forgotPass()"><strong>Forgot Password?</strong></p>
+			<p text-right ion-text color="light" tappable (click)="forgotPass()"><strong>Forgot Password?</strong></p>
 
 				<div>
 					<button ion-button icon-start block color="secondary" (click)="login()" [disabled]="!onLoginForm.valid">
-						<ion-icon name="log-in"></ion-icon>LOGIN</button>
+					<ion-icon name="log-in"></ion-icon>LOGIN</button>
 
 					<p></p>
 

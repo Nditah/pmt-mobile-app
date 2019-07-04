@@ -1,0 +1,43 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>
+        	<span ion-text>Cities</span>
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="lightest-bg">
+
+	<ion-grid no-padding fixed>
+		<ion-row no-padding>
+			<ion-col>
+				<ion-card *ngIf="!records.length" class="primary-bg" margin-top>
+					<ion-card-content>
+						<p text-center class="text-white">You have no records yet.</p>
+					</ion-card-content>
+				</ion-card>
+
+				<ion-list>
+					<ion-item-sliding *ngFor="let city of records">
+						<button ion-item (click)="itemTapped(city)">
+              <ion-thumbnail item-start class="round">
+                <img src="{{ city.photo || 'assets/img/abuja-city.jpg' }}"/>
+              </ion-thumbnail>
+              <h2> {{ city.name }} ∙ {{ city.country_iso2 | uppercase }} </h2>
+              <p><strong>{{ city.state_id?.name }}</strong></p>
+				<p text-wrap *ngIf="city.terminal_ids?.length"> 
+                <span *ngFor="let terminal of terminal_ids">
+                    {{ terminal.name }}, &nbsp;
+                </span>
+              </p>
+						</button>
+					</ion-item-sliding>
+				</ion-list>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+
+</ion-content>

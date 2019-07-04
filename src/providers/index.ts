@@ -1,3 +1,4 @@
+export * from './cities/cities';
 export * from './pml-billings/pml-billings';
 export * from './pml-routings/pml-routings';
 export * from './pml-shipments/pml-shipments';

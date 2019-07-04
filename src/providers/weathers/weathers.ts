@@ -1,45 +1,57 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { map, catchError } from 'rxjs/operators';
-// import { api } from './config';
-
+import { map } from 'rxjs/operators';
+import { _throw}  from 'rxjs/observable/throw';
+import { Storage } from '@ionic/storage';
+import { ApiResponse } from '../../models';
+import { ApiService, EnvService } from '../../services';
 
 @Injectable()
 export class Weathers {
   
-  apiKey = '1e4a0bdb251c64e4';
-  url: string;
-  queryNotFound: string;
 
-  constructor(public http: HttpClient) {
-    console.log('Hello WeatherProvider Provider');
-    this.url = `http://api.wunderground.com/api/${this.apiKey}/conditions/q/`;
+  records: Array<any> = [];
+
+  constructor(public storage: Storage,
+    private env: EnvService,
+    private apiService: ApiService) {
   }
 
-  getWeather(state, city): Observable<any> {
-    return this.http.get(this.url + state + '/' + city + '.json').pipe(
-      map(this.extractData),
-      catchError(this.handleError)
-    );
-  }
-
-  // Private
-  private extractData(res: Response) {
-    let body = res;
-    return body || {};
-  }
-
-  private handleError (error: Response | any) {
-    let errMsg: string;
-    if (error instanceof Response) {
-      const err = error || '';
-      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-    } else {
-      errMsg = error.message ? error.message : error.toString();
+  query(params?: any) {
+    if (!params) {
+      return this.records;
     }
-    console.error(errMsg);
-    return Observable.throw(errMsg);
+    return this.records.filter((record) => {
+      // tslint:disable-next-line:forin
+      for (const key in params) {
+        const field = record[key];
+        if (typeof field === 'string' && field.toLowerCase().indexOf(params[key].toLowerCase()) >= 0) {
+          return record;
+        } else if (field === params[key]) {
+          return record;
+        }
+      }
+      return null;
+    });
+  }
+
+  add(record) {
+    this.records.push(record);
+  }
+
+  async recordRetrieve(queryString = ''): Promise<ApiResponse> {
+    const url = `${this.env.API_URL}/cities/weather${queryString}`;
+    console.log('GET url ==>', url);
+    const proRes = this.apiService.getApi(url).pipe(
+        map((res: ApiResponse) => {
+            console.log(res);
+            if (res.success && res.payload.length > 0) {
+                this.records = res.payload;
+            } else {
+                _throw(res.message);
+            }
+            return res;
+        }));
+    return await proRes.toPromise();
   }
 
 }

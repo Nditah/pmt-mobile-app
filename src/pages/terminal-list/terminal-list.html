@@ -21,7 +21,7 @@
           <ion-item-sliding *ngFor="let terminal of terminals">
             <ion-item class="itemm" text-wrap>
               <ion-thumbnail item-start class="round">
-                <img src="{{ terminal.photo }}"/>
+                <img src="{{ terminal.photo || photo }}"/>
               </ion-thumbnail>
               <p><strong>{{ terminal.name }}</strong></p>
               <h3><a href="tel:{{ terminal.phone }}" color="energy" medium>{{ terminal.phone }}</a></h3>

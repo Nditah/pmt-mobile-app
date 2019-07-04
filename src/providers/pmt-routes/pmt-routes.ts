@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { _throw}  from 'rxjs/observable/throw';
+import { Storage } from '@ionic/storage';
 import { ApiResponse, PmtRoute } from '../../models';
 import { ApiService, EnvService } from '../../services';
 
@@ -10,8 +11,9 @@ export class PmtRoutes {
 
   pmtRoutes: PmtRoute[] = [];
 
-  constructor(private apiService: ApiService,
-        private env: EnvService) {
+  constructor(public storage: Storage,
+    private env: EnvService,
+    private apiService: ApiService) {
     const pmtRoutes = []; // Initial Values
     for (const pmtRoute of pmtRoutes) {
       this.pmtRoutes.push(new PmtRoute(pmtRoute));
@@ -52,51 +54,7 @@ export class PmtRoutes {
           map((res: ApiResponse) => {
               console.log(res);
               if (res.success && res.payload.length > 0) {
-                  res.payload.forEach(element => {
-                      this.add(element);
-                  });
-              } else {
-                  _throw(res.message);
-              }
-              return res;
-          }));
-      return await proRes.toPromise();
-  }
-
-  async recordCreate(record: PmtRoute): Promise<ApiResponse> {
-      const url = `${this.env.API_URL}/pmt-routes`;
-      const proRes = this.apiService.postApi(url, record).pipe(
-          map((res: ApiResponse) => {
-              if (res.success && res.payload) {
-                  console.log('recordCreate() successful');
-              } else {
-                  _throw(res.message);
-              }
-              return res;
-          }));
-      return await proRes.toPromise();
-  }
-
-  async recordUpdate(record: PmtRoute, payload): Promise<ApiResponse> {
-      const url = `${this.env.API_URL}/pmt-routes/${record.id}`;
-      const proRes = this.apiService.updateApi(url, payload).pipe(
-          map((res: ApiResponse) => {
-              if (res.success) {
-                  this.delete(record);
-              } else {
-                  _throw(res.message);
-              }
-              return res;
-          }));
-      return await proRes.toPromise();
-  }
-
-  async recordDelete(record: PmtRoute, payload): Promise<ApiResponse> {
-      const url = `${this.env.API_URL}/pmt-routes/${record.id}`;
-      const proRes = this.apiService.deleteApi(url).pipe(
-          map((res: ApiResponse) => {
-              if (res.success) {
-                  this.delete(record);
+                  this.pmtRoutes = res.payload;
               } else {
                   _throw(res.message);
               }

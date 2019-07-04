@@ -48,9 +48,18 @@ export class ScheduleResultsPage {
     this.navCtrl.push('page-schedule-detail', { 'id': schedule.id });
   }
 
-  seatsAvailable(schedule: PmtSchedule){
-    const totalSeats = schedule.vehicle_id ? schedule.vehicle_id.seating_capacity : 0;
-    const reservedSeats = schedule.pmt_reservation_ids ? schedule.pmt_reservation_ids.length : 0;
-    return totalSeats - reservedSeats; // available
+  seatsAvailable(schedule: PmtSchedule): number {
+    try {
+      const totalSeats = schedule.vehicle_id ? schedule.vehicle_id.seating_capacity : 0;
+      const reserveArray = schedule.pmt_reservation_ids ? schedule.pmt_reservation_ids : [];
+
+      let seatPositions = [];
+      reserveArray.forEach(reserve => {
+        seatPositions = seatPositions.concat(reserve.seat_positions);
+      });
+      return totalSeats - seatPositions.length;
+    } catch(e) {
+      console.log(e.message);
+    }
   }
 }

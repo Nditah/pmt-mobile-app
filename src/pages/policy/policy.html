@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>
+            <span ion-text>Terms & Conditions</span>
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content class="common-bg">
+
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col col-12 margin-bottom>
+    
+        <ion-card class="full-width" no-margin>
+            <ion-list>
+                <ion-item *ngFor="let d of accordions; let i=index" text-wrap (click)="toggleGroup(i)" [ngClass]="{active: isGroupShown(i)}">
+                  <button  ion-button block color="primary" icon-end>{{ d.name }}
+                    <ion-icon color="success" [name]="isGroupShown(i) ? 'arrow-dropdown' : 'arrow-dropright'" item-end></ion-icon>
+                  </button>
+                <div *ngIf="isGroupShown(i)"><h4>{{ d.description }}</h4></div>
+                </ion-item>
+            </ion-list>
+        </ion-card>
+  
+      </ion-col>
+    </ion-row>
+
+    
+        
+  </ion-grid>
+
+</ion-content>

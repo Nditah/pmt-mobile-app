@@ -31,7 +31,7 @@ export class ApiService {
         `body was: ${error.error}`);
     }
     // return an observable with a user-facing error message
-    return _throw('Something bad happened; please try again later.');
+    return _throw(error.error);
   }
 
   private extractData(res: Response) {

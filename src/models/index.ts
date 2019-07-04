@@ -32,3 +32,4 @@ export * from './spare-request';
 export * from './spare-log';
 export * from './terminal';
 export * from './vehicle';
+export * from './weather';

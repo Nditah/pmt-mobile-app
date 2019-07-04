@@ -21,14 +21,16 @@
                 <ion-icon name="home" color="primary" item-left></ion-icon>
                 <p ion-text color="light" class="text-sm">Origin terminal</p>
                 <span ion-text color="dark" class="bold">{{ bookingData?.terminalFrom?.name }}</span>
+                <ion-icon name="md-arrow-dropdown" color="primary" item-right></ion-icon>
               </ion-item>
             </ion-col>
-
+            
             <ion-col col-12 no-padding>
               <ion-item tappable (click)="chooseTerminal('to')" class="border-bottom">
                 <ion-icon name="pin" color="primary" item-left></ion-icon>
                 <p ion-text color="light" class="text-sm">Destination terminal</p>
                 <span ion-text color="dark" class="bold">{{ bookingData?.terminalTo?.name }}</span>
+                <ion-icon name="md-arrow-dropdown" color="primary" item-right></ion-icon>
               </ion-item>
             </ion-col>
 
@@ -52,7 +54,9 @@
       
           <ion-row>
             <ion-col col-12 no-padding>
-              <button ion-button block color="secondary" full large no-margin tappable (click)="doSearch()">
+              <button ion-button block color="primary" 
+              [disabled]="!(bookingData?.boardingDate && bookingData?.terminalFrom?.id && bookingData?.terminalTo?.id)"
+              full large no-margin tappable (click)="search()">
                 <ion-icon name="bus"></ion-icon>Search
               </button>
             </ion-col>
@@ -62,28 +66,24 @@
     </div>
   </div>
   
-  <div class="trip-card-wrapper deals" no-margin>
+  <div class="deals" no-margin>
       <ion-card class="opt-card">
         <ion-card-header>
           <ion-card no-margin class="w100">
-            <ion-card-content class="primary-bg">
-              <h2 ion-text class="bold text-white" text-center>Today's Top Deals</h2>
+            <ion-card-content class="secondary-bg">
+              <h2 ion-text class="bold text-white" text-center>Quality Peace Petroleum</h2>
             </ion-card-content>
           </ion-card>
         </ion-card-header>
   
-        <ion-card-content class="card-background-page">
+        <ion-card-content class="card-background-page" tappable (click)="comingSoon()">
           <ion-grid no-padding>
             <ion-row>
-  
               <ion-col col-12 no-padding>
                 <ion-card no-margin>
-                  <img src="assets/img/bg1.jpg" />
-                  <div class="card-title">30% OFF</div>
-                  <div class="card-subtitle">Cheap Destinations</div>
+                  <img src="assets/img/pet2.jpg" />
                 </ion-card>
               </ion-col>
-  
             </ion-row>
           </ion-grid>
         </ion-card-content>

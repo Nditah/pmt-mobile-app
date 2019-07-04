@@ -35,18 +35,23 @@
 
         <ion-card no-margin margin-bottom tapplable (click)="searchSchedules()">
           <img src="assets/img/bg1.jpg" />
-          <div class="card-title">Book a bus</div>
+          <div class="card-title">BOOK BUS</div>
           <div class="card-subtitle">
-            <span ion-text color="secondary" class="bold">18</span> bookings today!
+            <span ion-text color="secondary" class="bold">PeaceMass</span>Transit
           </div>
-          <span ion-text class="card-img-status promo fw300 text-white">
-            discounts
-          </span>
         </ion-card>
 
         <ion-card no-margin margin-bottom tapplable (click)="searchShipment()">
-          <img src="assets/img/bg1.jpg" />
-          <div class="card-title">Track Shipment</div>
+          <img src="assets/img/courier.png" />
+          <div class="card-title">TRACK SHIPMENT</div>
+          <div class="card-subtitle">
+            <span ion-text color="secondary" class="bold">PeaceMass</span>Logistics
+          </div>
+        </ion-card>
+
+        <ion-card no-margin margin-bottom tapplable (click)="comingSoon()">
+          <img src="assets/img/taxi.png" />
+          <div class="card-title">HIRE TAXI</div>
           <div class="card-subtitle">
             <span ion-text color="secondary" class="bold">Coming</span> Soon!
           </div>
@@ -55,17 +60,17 @@
           </span>
         </ion-card>
 
-        <ion-card no-margin margin-bottom>
-          <img src="assets/img/bg1.jpg" />
-          <div class="card-title">Hire a taxi</div>
+        <ion-card no-margin margin-bottom tapplable (click)="comingSoon()">
+          <img src="assets/img/pet.jpg" />
+          <div class="card-title">SHOP ONLINE</div>
           <div class="card-subtitle">
-            <span ion-text color="secondary" class="bold">Coming</span> Soon!
+            <span ion-text color="secondary" class="bold">Peace</span>Shop
           </div>
           <span ion-text class="card-img-status promo fw300 text-white">
             coming soon!
           </span>
         </ion-card>
-
+        
       </ion-card-content>
     </ion-card>
 

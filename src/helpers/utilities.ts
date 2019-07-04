@@ -1,6 +1,6 @@
 
-export function toObjectId(baseId = '5951bc91860d8b5ba', mysqlId = 1) {
-    const oldId = mysqlId.toString(10);
+export function toObjectId(baseId = '5951bc91860d8b5ba', mysqlId: any = 1) {
+    const oldId = (typeof mysqlId === 'string') ? mysqlId : mysqlId.toString(10);
     const a = '0'.repeat(7 - oldId.length);
     return baseId + a + oldId;
 }
@@ -255,4 +255,16 @@ export function  formatDate(date) {
 
 export function  formatTime(time) {
     return new Date(time).toLocaleTimeString();
+}
+
+export function formatStandardDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
 }

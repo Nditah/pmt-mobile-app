@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { _throw}  from 'rxjs/observable/throw';
+import { Storage } from '@ionic/storage';
 import { ApiResponse, Message, Customer } from '../../models';
 import { ApiService, EnvService, AuthService } from '../../services';
 // import sample from './table';
@@ -13,10 +14,10 @@ export class Messages {
   messages: Message[] = [];
   user: Customer;
 
-  constructor(private env: EnvService,
+  constructor(public storage: Storage,
+    private env: EnvService,
     private apiService: ApiService,
-    private authService: AuthService,
-    ) {
+    private authService: AuthService) {
     const messages = []; //  sample || [];
     for (const message of messages) {
       this.messages.push(new Message(message));
@@ -26,7 +27,16 @@ export class Messages {
         this.user = new Customer(pmtBooking.customer);
         if (hasProp(this.user, 'id')){
             const queryString = `?customer_id=${this.user.id}&recipient=CUSTOMER&box=INBOX&sort=-created_at`;
-            this.recordRetrieve(queryString).then().catch(err => console.log(err));                
+            this.recordRetrieve(queryString).then(data => {
+              if(data.success){
+                this.messages = data.payload.length > 0 ? data.payload : [];
+                this.storage.set('messages', JSON.stringify(this.messages)).then(data => data);
+              } else {
+                this.storage.get('messages').then(data => {
+                  this.messages = data ? JSON.parse(data) : [];
+                });
+              }
+            }).catch(err => console.log(err));                
         }
       }
     }).catch(err => console.log(err));
@@ -66,9 +76,7 @@ export class Messages {
         map((res: ApiResponse) => {
             console.log(res);
             if (res.success && res.payload.length > 0) {
-                res.payload.forEach(element => {
-                    this.add(element);
-                });
+                this.messages = res.payload;
             } else {
                 _throw(res.message);
             }

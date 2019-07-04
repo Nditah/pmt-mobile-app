@@ -40,64 +40,72 @@ export class ScheduleDetailPage {
     console.log('ScheduleDetailPage ionViewDidLoad')
   }
 
-  seatColor(s): string {
-    return this.isSeatAvailable(s) ? 'green' : 'secondary';
+  seatColor(seatNo: number): string {
+    return this.isSeatAvailable(seatNo) ? 'green' : 'secondary';
   }
+  
 
-  selectSeat(seat) {
-    if (!this.isSeatAvailable(seat)){
+  /**
+   * @description Select avalibale seat or de-select seats
+   * @param seatNo seat to select or de-select from seatPosition array
+   */
+  selectSeat(seatNo: number) {
+    /*
+    console.log('Choosing seat ', seatNo);
+    console.log('Seat isSeatAvailable ', this.isSeatAvailable(seatNo));
+    console.log('Seat isSeatSelected ', this.isSeatSelected(seatNo));
+    */
+    if (!this.isSeatAvailable(seatNo)){
       return;
     }
-    const index = this.seatPositions.indexOf(seat);
+    const index = this.seatPositions.indexOf(seatNo);
     if (index >= 0) {
       this.seatPositions.splice(index, 1);
     } else {
-      this.seatPositions.push(seat);
+      this.seatPositions.push(seatNo);
     }
   }
 
-  getSeats(){
-    const N = this.schedule.vehicle_id.seating_capacity || 16; // seatCapacity
-    return Array.from({length: N}, (v, k) => k+1); 
+  /**
+   * @description Create an Array of vehicle seats
+   * @returns {Array} of seats
+   * @param {capacity} vehicle seating capacity | 16 for bus
+   */
+  getSeats(capacity = 16): Array<number>{
+    return Array.from({length: capacity}, (v, k) => k+1); 
   }
 
-  padSeats(seats: number[]): number[] {
-    switch (seats.length) {
-      case 14:
-        seats.splice(0, 0, null, null);
-        seats.splice(7, 0, null);
-        seats.splice(11, 0, null);
-        seats.splice(15, 0, null);
-        break;
-      case 15:
-        // 0:1
-        seats.splice(0, 0, null, null);
-        seats.splice(7, 0, null);
-        seats.splice(11, 0, null);
-        seats.splice(15, 0, null);
-        break;
-      case 16:
-      default:
-        seats.splice(0, 0, null, null);
-        seats.splice(11, 0, null);
-        seats.splice(15, 0, null);
+  seatsAvailable(schedule: PmtSchedule): number {
+    try {
+      const totalSeats = schedule.vehicle_id ? schedule.vehicle_id.seating_capacity : 0;
+      return totalSeats - this.reservedSeats(schedule).length;
+    } catch(e) {
+      console.log(e.message);
     }
-    console.log(seats);
-    return seats;
   }
 
-  seatsAvailable(schedule: PmtSchedule){
-    const totalSeats = schedule.vehicle_id ? schedule.vehicle_id.seating_capacity : 0;
-    const reservedSeats = schedule.pmt_reservation_ids ? schedule.pmt_reservation_ids.length : 0;
-    return totalSeats - reservedSeats; // available
+  reservedSeats(schedule: PmtSchedule): Array<number> {
+    try {
+      const reserveArray = schedule.pmt_reservation_ids ? schedule.pmt_reservation_ids : [];
+
+      let seatPositions = [];
+      reserveArray.forEach(reserve => {
+        seatPositions = seatPositions.concat(reserve.seat_positions);
+      });
+      return seatPositions;
+    } catch(e) {
+      console.log(e.message);
+    }
+
   }
+
   isSeatAvailable(seat: number): Boolean{
-    const reservedSeats: Array<number> = this.schedule.pmt_reservation_ids || [];
-    return reservedSeats.some(x => x === seat);
+    const reservedSeats: Array<number> = this.reservedSeats(this.schedule) || [];
+    return !(reservedSeats.some(x => x === seat)); // is it and elt of reservedSeats?
   }
 
   isSeatSelected(seat: number): Boolean{
-    return this.seatPositions.some(x => x === seat);
+    return this.seatPositions.some(x => x === seat); // is it and elt of seatPositions?
   }
 
   viewSummary(reservation) {

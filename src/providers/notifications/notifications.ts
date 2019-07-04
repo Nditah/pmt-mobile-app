@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { _throw}  from 'rxjs/observable/throw';
+import { Storage } from '@ionic/storage';
 import { ApiResponse, Notification, Customer } from '../../models';
 import { ApiService, EnvService, AuthService } from '../../services';
 import { hasProp } from '../../helpers';
@@ -12,10 +13,10 @@ export class Notifications {
   notifications: Notification[] = [];
   user: Customer;
 
-  constructor(private env: EnvService,
+  constructor(public storage: Storage,
+    private env: EnvService,
     private apiService: ApiService,
-    private authService: AuthService,
-    ) {
+    private authService: AuthService) {
     const notifications = []; // Initial Values
     for (const notification of notifications) {
       this.notifications.push(new Notification(notification));
@@ -25,7 +26,17 @@ export class Notifications {
         this.user = new Customer(pmtBooking.customer);
         if (hasProp(this.user, 'id')){
           const queryString = `?customer_id=${this.user.id}&recipient=CUSTOMER&sort=-created_at`;
-            this.recordRetrieve(queryString).then().catch(err => console.log(err));                
+            this.recordRetrieve(queryString).then(data => {
+              if(data.success){
+                this.notifications = data.payload.length > 0 ? data.payload : [];
+                this.storage.set('notifications', JSON.stringify(this.notifications)).then(data => data);
+              } else {
+                this.storage.get('notifications').then(data => {
+                  this.notifications = data ? JSON.parse(data) : [];
+                });
+
+              }
+            }).catch(err => console.log(err));                
         }
       }
     }).catch(err => console.log(err));
@@ -64,9 +75,7 @@ export class Notifications {
           map((res: ApiResponse) => {
               console.log(res);
               if (res.success && res.payload.length > 0) {
-                  res.payload.forEach(element => {
-                      this.add(element);
-                  });
+                  this.notifications = res.payload;
               } else {
                   _throw(res.message);
               }
