@@ -96,6 +96,7 @@ export class ScheduleDetailPage {
     } catch(e) {
       console.log(e.message);
     }
+
   }
 
   isSeatAvailable(seat: number): Boolean{

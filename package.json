@@ -6,7 +6,7 @@
   "private": true,
   "description": "PMT Online: Inter-city mass transit booking app.",
   "scripts": {
-    "dev": "ionic serve",
+    "dev": "ionic serve --devapp",
     "start": "ionic-app-scripts serve",
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
